@@ -7,14 +7,16 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年07月28日 星期六
-> Last edited time: 2018年07月28日 星期六
+> Last edited time: 2018年08月3日 星期五
 > Topic:C++Primer Chapter2
 ************************************************************************/
 
 
 
 #include <iostream>//系统头文件的文件名要放在尖括号里给出，这是告诉编译器：应该到“标准的”地点寻找这个文件：#include <stdio.h>
-#include "temp.h"//自定义头文件的文件名要放在双引号里给出
+#include "Chapter2.h"//自定义头文件的文件名要放在双引号里给出
+#include <cstdlib>
+
 
 using namespace std;
 
@@ -64,7 +66,7 @@ void LiteralConstant()
 }
 
 
-std::string global_str; //定义在
+std::string global_str; //空串
 int global_int;
 //2.10变量初始值
 /*
@@ -78,7 +80,7 @@ void VariableInitialValue()
 {
 	int local_int = 1;
 	std::string local_str;
-	std::cout << &global_str << std::endl;
+	std::cout << &global_str << std::endl;		
 	std::cout << global_int << std::endl;
 	std::cout << &local_str << std::endl;
 	std::cout << local_int << std::endl;
@@ -95,19 +97,112 @@ void VariableInitialValue()
 */
 void VariableDefinitionAndDeclaration()
 {
-	int variable = 10; //定义变量variable
+	//int variable = 10; //定义变量variable
 	std::cout << variable << std::endl;
+	
 }
 
-//2.15引用
+//2.15引用(其实是变量的别名)
 void Reference()
 {	
 	//int ival = 1.01;   //不合法的定义
-	//int &rval1 = 1.01;
-
-
+	//int i = 1;
+	//int &rval1 = i;  //非常量引用的初始值必须为左值（就是定义的变量，int i = 1；i是左值，1是右值）
+	//rval1 = 2;
+	//std::cout << rval1 << std::endl;
+	//int &a = i;
+	int i = 0, &ri = i;
+	i = 5; ri = 10;
+	std::cout << i << "  " << ri << std::endl;
 }
-int i = 42;
+
+//2.20指针
+void Pointer()
+{
+	//int *p1 = nullptr;
+	//int *p2 = 0;
+	//int *p3 = NULL;
+	//std::cout << p1 << std::endl;
+	//std::cout << p2 << std::endl;
+	//std::cout << p3 << std::endl;	
+	//int *pi = 0;
+	//int i = 42;
+	//int *pi = &i;
+	//int **ppi2 = &pi;   //双重指针
+	//std::cout << i << std::endl;
+	//std::cout << *pi << std::endl;
+	//std::cout << **ppi2 << std::endl;
+	int i = 42;
+	int *p;
+	int *&r = p;
+	r = &i;
+	*r = 0;
+	std::cout << i << std::endl;
+}
+
+// const限定符
+void Fun_const()
+{
+	//int i = 42;
+	//const int &r1 = i;	
+	//const int &r2 = 42;
+	//const int &r3 = r1 * 2;
+	////int &r4 = r1 * 2;  //非常量的初始值必须为左值，也就是必须是非常量对象；
+
+	//std::cout << r1 << std::endl;	//42
+	//i = 45;
+	//std::cout << r1 << std::endl;	//45
+	//std::cout << r3 << std::endl;	//84,r3是对r1*2常量的引用
+
+	//double dval = 3.14;
+	//const int &ri = dval;
+	//std::cout << ri << std::endl;   //3
+
+
+	// 引用的类型必须与其所引用对象的类型一致，两种例外：
+	//1.允许一个常量引用绑定非常量对象、字面值、甚至是一个一般表达式
+	//2.
+
+	// 指针的类型必须与其所指的对象的类型一致，两种例外：
+	//1.允许一个指向常量的指针指向一个非常量对象
+	//2.
+
+	//定义的const int &(对int型常量的引用)和const int *(指向int型常量的指针) 
+	//自以为指向了常量对象，所以自觉地不去改变所指对象的值，但是他们指向的并不一定是常量对象
+	//仅仅要求他们不能通过引用和指针改变所指对象的值
+	
+	
+	
+	
+	//const指针,常量指针，指针本身是一个常量，一旦初始化完成。它的值（即它所存放的地址）就不能改变了。
+	//此类定义从右往左阅读理解声明的含义
+	int errNumb = 0;
+	int *const curErr = &errNumb;   //*放在const前说明指针是一个常量
+	const double pi = 3.14159;
+	const double *const pip = &pi;
+	//常量指针curErr和pip，curErr指向一个int型变量，pip指向的是一个double型常量，
+	//可以用curErr修改errNumb的值，但是不能用pip修改pi的值
+	std::cout << *curErr << std::endl;  //0
+	*curErr = 1;
+	std::cout << *curErr << std::endl;	//1
+}
+
+//2.4.2节练习
+void const_and_pointer()
+{
+	//const int *p;
+	//int i = 5;
+	//p = &i;
+	//i = 6;
+	//std::cout << *p << std::endl;
+
+	//顶层const（任意对象本身是常量，不可修改）和底层const（指针或引用的对象时const，其本身可以修改）
+	int i = 42, j = 45;
+	const int *pi = &i;		//底层const，允许改变pi的值
+	pi = &j;
+	std::cout << *pi << std::endl;
+}
+
 
 int main()
 {
@@ -118,12 +213,10 @@ int main()
 	//VariableDefinitionAndDeclaration();
 
 	//Reference();
+	//Pointer();
+	//Fun_const();
 
-
-	int i = 100;
-	int j = i;
-	std::cout << j << std::endl;
-
+	const_and_pointer();
 
 	return 0;
 }
