@@ -15,6 +15,7 @@
 
 #include <iostream>//系统头文件的文件名要放在尖括号里给出，这是告诉编译器：应该到“标准的”地点寻找这个文件：#include <stdio.h>
 #include "Chapter2.h"//自定义头文件的文件名要放在双引号里给出
+#include <string>
 #include <cstdlib>
 
 
@@ -188,7 +189,7 @@ void Fun_const()
 }
 
 //2.4.2节练习
-void const_and_pointer()
+void Const_and_pointer()
 {
 	//const int *p;
 	//int i = 5;
@@ -204,6 +205,198 @@ void const_and_pointer()
 }
 
 
+//constexpr常量表达式
+void Fun_constexper()
+{
+	//const int *p = nullptr;			//p是一个指向整数常量的指针
+	//constexpr int *q = nullptr;		//q是一个指向整数的常量指针
+	//constexpr int *np = nullptr;	//np是一个指向整数的常量指针，其值为空
+
+	//int j = 0;
+	//constexpr int i = 42;			//i的类型是整型常量
+	//constexpr const int *p = &i;	//p是常量指针，指向整型常量i；
+	////constexpr int *pl = &j;		//表达式必须含有常量值
+
+
+}
+
+
+//类型别名typedef
+void Fun_typedef()
+{
+	char mychar1 = 'A', mychar2 = 'B';
+	typedef char *pstring;				//pstring是char*类型的别名，那么pstring就是指针
+	const pstring cstr = &mychar1;		//cstr是一个指向char('A')的常量指针 const修饰pstring类型，所以sctr就是一个常量指针
+	const pstring *ps = &cstr;			//ps是一个指针，它指向的对象是指向char的常量指针；ps首先是一个指针，是指向一个常量指针的指针
+
+	std::cout << *cstr << std::endl;	//输出A；
+	std::cout << **ps << std::endl;		//输出A；
+
+	char *const cstr2 = &mychar1;		//cstr2先是一个指向字符型的常量指针，与cstr类型一致
+	std::cout << *cstr2 << std::endl;	//输出A；
+
+	*cstr2 = 'C';					
+	std::cout << *cstr2 << std::endl;	//输出C；
+
+	const char *cstr3 = &mychar1;		//cstr3是一个指向字符常量的指针
+	cstr3 = &mychar2;
+	std::cout << *cstr3 << std::endl;	//输出B；
+}
+
+//auto类型说明符，auto让编译器通过初始值来推算变量类型，auto定义的变量必须有初始值
+void Fun_auto()
+{
+	//int val1 = 3,val2 = 3;
+	//auto item = val1 + val2;  //item类型为val1和val2相加的结果
+	//std::cout << item << std::endl;
+		
+	//int i = 0, &r = i;
+	//auto a = r;						//a是一个整数
+	//const int ci = 1, &cr = ci;		
+	//auto b = ci;					//b是一个整数（hulve顶层const）
+	//auto c = cr;					//c是一个整数
+	//auto d = &i;					//d是一个整型指针（整数的地址就是指向整数的指针）
+	//auto e = &ci;					//e是一个指向整数常量的指针（底层const）
+	//const auto f = ci;				//f是一个整型常量const int
+	//auto &g = ci;					//g是一个整型常量的引用
+	////auto &h = 42;					//错误，非常量引用的初始值必须为左值
+	//const auto &j = 42;				//常量引用可以绑定字面值
+
+
+	//ex2.35
+	const int i = 42;
+	auto j = i;
+	const auto &k = i;
+	auto *p = &i;
+	const auto j2 = i, &k2 = i;
+
+	// print i means int, and PKi means pointer to const int.
+	std::cout << "j is " << typeid(j).name()
+		<< "\nk is " << typeid(k).name()
+		<< "\np is " << typeid(p).name()
+		<< "\nj2 is " << typeid(j2).name()
+		<< "\nk2 is " << typeid(k2).name()
+		<< std::endl;
+}
+
+
+
+//devltype类型指示符
+void Fun_decltype()
+{
+	//int i = 42, *p = &i, &r = i;
+	//decltype(r + 0) b;
+	//decltype(*p) c = i;
+	
+	//ex2.36
+	//int a = 3, b = 4;
+	//decltype(a) c = a;		//c是个整型int
+	//decltype((b)) d = a;	//d是个整型引用
+	//++c;					// 4
+	//++d;					//4
+
+	//ex2.37
+	//int a = 3, b = 4;			//a = 3,b = 4;
+	//decltype(a) c = a;			//c是一个整型int，3
+	//decltype(a = b) d = a;		//d是一个整型引用，d = 3；  a = b并不执行
+
+	//ex2.38
+	//decltype指定类型和auto指定的类型都由编译器得到；
+	//int i = 0, &r = i;
+	//auto a = i;
+	//decltype(i) b = i;
+
+	//auto c = r;			//c是一个int
+	//decltype(r) d = r;	//d是一个引用
+}
+
+//自定义数据结构
+struct Sales_data
+{
+	std::string bookNo;			//默认初始化为空字符串
+	//std::string bookName;
+	unsigned units_sold = 0;	//销售数量
+	double revenue = 0.0;		//收入
+	double price = 0.0;			//售价
+};
+
+void Fun_sales_data1()
+{
+	//freopen("book_sales", "r", stdin);
+	Sales_data book1,book2;
+	std::cin >> book1.bookNo >> book1.units_sold >> book1.price;
+	std::cin >> book2.bookNo >> book2.units_sold >> book2.price;
+	book1.revenue = book1.units_sold*book1.price;
+	book2.revenue = book2.units_sold*book2.price;
+	//std::cout << book1.bookNo << std::endl;
+	if (book1.bookNo == book2.bookNo)
+	{
+		unsigned total_sold = book1.units_sold + book2.units_sold;
+		double total_revenue = book1.revenue + book2.revenue;
+		std::cout << book1.bookNo << " " << total_sold << " " << total_revenue << " ";
+		if (total_sold != 0)
+		{
+			double average_price = total_revenue / total_sold;
+			std::cout << average_price << std::endl;
+		}
+		else
+		{
+			std::cout << "(No sales)" << std::endl;
+		}
+	}
+	else
+	{
+		std::cerr << "Data must refer to the same ISBN" << std::endl;
+	}
+}
+
+void Fun_sales_data2()
+{
+	Sales_data total;
+	if (std::cin >> total.bookNo >> total.units_sold >> total.price)
+	{
+		total.revenue = total.units_sold*total.price;
+		Sales_data trans;
+		while (std::cin >> trans.bookNo >> trans.units_sold >> trans.price)
+		{
+			trans.revenue = trans.units_sold*trans.price;
+			if (total.bookNo == trans.bookNo)
+			{
+				total.revenue += total.revenue + trans.revenue;
+				total.units_sold += total.units_sold + trans.units_sold;
+			}
+			else
+			{
+				std::cout << total.bookNo << " " << total.units_sold << " " << total.revenue << " ";
+				if (total.units_sold != 0)
+				{
+					total.price = total.revenue / total.units_sold;
+					std::cout << total.price << std::endl;
+				}
+				else
+					std::cout << "(no sales)" << std::endl;
+
+				total.bookNo = trans.bookNo;
+				total.units_sold = trans.units_sold;
+				total.revenue = trans.revenue;
+			}
+		}
+		std::cout << total.bookNo << " " << total.units_sold << " " << total.revenue << " ";
+		if (total.units_sold != 0)
+		{
+			total.price = total.revenue / total.units_sold;
+			std::cout << total.price << std::endl;
+		}
+		else
+		{
+			std::cout << "(no sales)" << std::endl;
+		}
+	}
+	else
+	{
+		std::cerr << "No data?!" << std::endl;
+	}
+}
 int main()
 {
 
@@ -216,8 +409,13 @@ int main()
 	//Pointer();
 	//Fun_const();
 
-	const_and_pointer();
+	//Const_and_pointer();
+	//Fun_typedef();
+	//Fun_auto();
 
+	//Fun_decltype();
+	//Fun_sales_data1();
+	Fun_sales_data2();
 	return 0;
 }
 
