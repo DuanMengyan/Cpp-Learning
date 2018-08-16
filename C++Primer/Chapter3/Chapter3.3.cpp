@@ -6,7 +6,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年08月13日 星期一
-> Last edited time: 2018年8月14日 星期er
+> Last edited time: 2018年8月14日 星期二
 > Topic:C++Primer Chapter3.3标准库类型vector
 ************************************************************************/
 
@@ -155,13 +155,13 @@ void Fun_inti_vector()
 }
 
 
-
-int main()
-{
-
-	Fun_inti_vector();
-
-	return 0;
-
-
-}
+//
+//int main()
+//{
+//
+//	Fun_inti_vector();
+//
+//	return 0;
+//
+//
+//}
