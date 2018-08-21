@@ -6,7 +6,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年08月16日 星期四
-> Last edited time: 2018年8月16日 星期四
+> Last edited time: 2018年8月21日 星期二
 > Topic:C++Primer Chapter3.4 迭代器类型
 ************************************************************************/
 
@@ -134,10 +134,77 @@ void Fun_iterator()
 }
 
 
-//3.4.2迭代器原酸
+//3.4.2迭代器运算
 void Fun_iterator_arithmetic()
 {
+	//二分搜索
+	//vector<int> vec{ 1, 2, 3, 4, 5, 6 ,7, 8};
+	//int num = 0;
+	//auto begin = vec.begin();
+	//auto end = vec.end();
+	//auto mid = vec.begin() + vec.size() / 2;
+	//cout << end - begin <<"\t"<<vec.size()/2<< endl;
+	//
+	//while (mid != end && *mid != num)
+	//{
+	//	if ( num< *mid)
+	//	{
+	//		end = mid;
+	//	}
+	//	else
+	//	{
+	//		begin = mid + 1;
+	//	}
+	//	mid = begin + (end - begin) / 2;
+	//	cout << *mid << endl;
+	//}
+	//cout << *mid << endl;
 
+	//ex3.24
+	//vector<int> vec;//{1,2,3,4,5,6,7}
+	//for (int num; cin >> num; vec.push_back(num));
+	//auto pre = vec.begin();
+	//auto next = pre + 1;
+	////cout << *pre + *next << endl;
+	//while (pre != vec.end()-1)
+	//{		
+	//	cout << *pre + *next << endl;		
+	//	pre = next;
+	//	next = pre + 1;
+	//}
+	//auto begin = vec.begin();
+	//auto end = vec.end()-1;
+	//while (begin <= end)
+	//{
+	//	cout << *begin + *end << endl;
+	//	++begin;
+	//	--end;
+	//}
+
+	//ex3.25
+	vector<unsigned> scores(11, 0);
+	vector<unsigned> grade{45,65,95,100,39,67,95,76,88,76,83,92,76,93};
+	//for (auto g : grade)
+	//{
+	//	if (g <= 100)
+	//		++scores[g/ 10];
+	//}
+	//for (auto s : scores)
+	//{
+	//	cout << s << "  ";
+	//}
+	//cout << endl;
+	auto begin = scores.begin();
+	for (auto g : grade)
+	{
+		if (g <= 100)
+			++ *(begin + g / 10);
+	}
+	for (auto s : scores)
+	{
+		cout << s << "   ";
+	}
+	cout << endl;
 
 }
 
@@ -145,6 +212,7 @@ void Fun_iterator_arithmetic()
 
 int main()
 {
-	Fun_iterator();
+	//Fun_iterator();
+	Fun_iterator_arithmetic();
 	return 0;
 }
