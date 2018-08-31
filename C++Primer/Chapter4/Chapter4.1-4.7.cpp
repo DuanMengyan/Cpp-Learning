@@ -117,9 +117,15 @@ void Fun_Assignment_Operators()
 
 }
 
-//4.5递增合递减运算符
+//4.5递增和递减运算符
 void Fun_Increment_and_Decrement_Operators()
-{	
+{	//这两种运算对象都必须作用于左值运算对象，前置版本将对象本身作为左值返回，后置版本
+	//则返回对象原始值的副本作为右值返回
+	int i = 0;
+	int a = (++i)++;		
+	//后置递增运算符优先级高于前置递增运算符，所以加括号令i先递增，返回i=1(左值)
+	//然后i=1作为后置递增运算符的对象递增，返回原始值i=1的副本1(右值)初始化a，i的值变为2
+	cout << a << "   " << i << endl;
 	//ex4.19
 	//int ival = -1;
 	//if (ival++ && ival)   //if( -1 && 0)
@@ -206,14 +212,14 @@ void Fun_The_Conditional_Operator()
 
 }
 
-int main()
-{
-	//Fun_fundamentals();
-	//Fun_Arithmetic_Operators();
-	//Fun_Logical_and_Relational_Operators();
-	//Fun_Assignment_Operators();
-	//Fun_Increment_and_Decrement_Operators();
-	//Fun_The_Member_Access_Operators();
-	Fun_The_Conditional_Operator();
-	return 0;
-}
+//int main()
+//{
+//	//Fun_fundamentals();
+//	//Fun_Arithmetic_Operators();
+//	//Fun_Logical_and_Relational_Operators();
+//	//Fun_Assignment_Operators();
+//	//Fun_Increment_and_Decrement_Operators();
+//	//Fun_The_Member_Access_Operators();
+//	Fun_The_Conditional_Operator();
+//	return 0;
+//}
