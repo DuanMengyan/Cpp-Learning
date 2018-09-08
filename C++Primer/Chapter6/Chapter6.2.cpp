@@ -6,7 +6,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年09月06日 星期四
-> Last edited time: 2018年9月07日 星期五
+> Last edited time: 2018年9月08日 星期六
 > Topic:C++Primer Chapter6.2 参数传递
 ************************************************************************/
 
@@ -16,6 +16,7 @@
 #include <cstddef>
 #include <cctype>
 #include <stdexcept>
+#include <initializer_list>
 
 using std::runtime_error;
 using std::cin;
@@ -26,6 +27,7 @@ using std::string;
 using std::vector;
 using std::begin;
 using std::end;
+using std::initializer_list;
 
 //ex6.10
 void swap_pointer(int *num1,int *num2)
@@ -202,6 +204,7 @@ void change_pointer(int* &p1,int * &p2)
 }
 
 //ex6.23
+
 //void print(const int *p)
 //{
 //	cout << "print1:  ";
@@ -246,6 +249,18 @@ void print(const int arr[], size_t size)
 	}
 	cout << endl;
 }
+
+//ex6.24
+//void print_ex624(const int ia[10])			//const int ia[10]实际上等于const int *，数组的大小10无效
+void print_ex624(const int (&ia)[10])			//如果要限制传入的数组大小，需要定义为引用形参
+{
+	for (size_t i = 0; i != 10; ++i)
+	{
+		cout << ia[i] << endl;
+	}
+
+}
+
 //6.2.4 数组形参
 void Fun_Array_Parameters()
 {
@@ -284,29 +299,103 @@ void Fun_Array_Parameters()
 	//cout << *p1 << "   " << *p2 << endl;
 
 	//ex6.23
-	int i = 0, j[2] = { 0, 1 };
-	char ch[5] = "pezy";
+	//int i = 0, j[2] = { 0, 1 };
+	//char ch[5] = "pezy";
 
-	//print(&i);				//void print(const int *p)
-	print(ch);					//void print(const char *p)
-	print(j);					//void print(const int (&arr)[2])
-	print(begin(j), end(j));	//void print(const int *beg, const int *end)
-	print(j,2);					//void print(const int arr[], size_t size)
+	////print(&i);				//void print(const int *p)
+	//print(ch);					//void print(const char *p)
+	//print(j);					//void print(const int (&arr)[2])
+	//print(begin(j), end(j));	//void print(const int *beg, const int *end)
+	//print(j,2);					//void print(const int arr[], size_t size)
 	
+	//ex6.24
+	//int ia[10] = {1,2,3};
+	//print_ex624(ia);//这里必须传入大小为10的数组
 }
 
+//6.2.5 main：处理命令行选项
 
+//void main(int argc,char **argv)
+//{
+//	string str;
+//	for (int i = 1; i != argc; ++i)
+//	{
+//		str += string (argv[i]) + "  ";
+//	}
+//	cout << str << endl;
+//}
+
+//6.2.5 main：处理命令行选项
+void Fun_main_Handling_Command_Line_Options()
+{
+	string str[5];
+	str[0] = "";
+	str[1] = "-d";
+	str[2] = "-o";
+	str[3] = "ofile";
+	str[4] = "data0";
+	str[5] = "\0";
+}
+
+//6.2.6 initializer_list形参
+void error_msg(initializer_list<string> il)
+{
+	for (auto beg = il.begin(); beg != il.end(); ++beg)
+		cout << *beg << "   ";
+	cout << endl;
+}
+
+//ex6.27
+int sum(initializer_list<int> int_list)
+{
+	int sum = 0;
+	for (auto beg = int_list.begin(); beg != int_list.end(); ++beg)
+	{
+		sum += *beg;
+	}
+	return sum;
+}
+
+//6.2.6 含有可变形参的函数
+void Fun_Functions_with_Varying_Parameters()
+{
+	//initializer_list也是一种磨板类型，对象中的元素永远是常量值
+	//string str1 = "hello world",str2 = "Hello World";
+	//if (str1 == str2)
+	//{
+	//	error_msg({ "FunctionX", str1, str2 });		//传入三个值
+	//}
+	//else
+	//{
+	//	error_msg({ "FunctionX", "okay!" });		//传入两个值
+	//}
+	
+	//ex6.27
+	initializer_list<int> num_list{ 1, 2, 3, 4, 5 };
+	cout << sum(num_list) << endl;
+	
+	//ex6.28 elem 类型是常量字符串引用
+	//ex6.29 取决于initializer_list对象中元素的类型，如果是基础类型，不需要(拷贝容易)，否则const引用更好
+}
 
 int main()
 {
 	//6.2.1 传值参数
 	//Fun_Passing_Arguments_by_Value();
+
 	//6.2.2 传引用参数
 	//Fun_Passing_Arguments_by_Reference();
+
 	//6.2.3 const形参和实参
 	//Fun_const_Parameters_and_Arguments();
-	//6.2.4 数组形参
-	Fun_Array_Parameters();
 
+	//6.2.4 数组形参
+	//Fun_Array_Parameters();
+
+	//6.2.5 main：处理命令行选项
+	//Fun_main_Handling_Command_Line_Options();
+
+	//6.2.6
+	Fun_Functions_with_Varying_Parameters();
 	return 0;
 }
