@@ -6,7 +6,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年09月08日 星期六
-> Last edited time: 2018年9月08日 星期六
+> Last edited time: 2018年9月09日 星期日
 > Topic:C++Primer Chapter6.3 返回类型和return语句
 ************************************************************************/
 
@@ -77,6 +77,34 @@ int factorial(int val)
 	return 1;
 }
 
+//ex6.30
+bool str_subrange(const string &str1, const string &str2)
+{
+	if (str1.size() == str2.size())
+		return str1 == str2;
+	auto size = (str1.size() < str2.size()) ? str1.size() : str2.size();
+	for (decltype(size)i = 0; i != size; ++i)
+	{
+		if (str1[i] != str2[i])
+			return  false;
+	}
+	return true;
+}
+
+//ex6.32
+int &get(int *array, int index) { return array[index]; }
+
+//ex6.33
+void print_vec(vector<int>::const_iterator first,vector<int>::const_iterator last)
+{
+	if (first != last)
+	{
+		cout << *first << "  ";
+		print_vec(first + 1, last);
+	}
+	else cout << endl;
+}
+
 //6.3.2 有返回值函数
 void Fun_function_with_return_value()
 {
@@ -103,7 +131,43 @@ void Fun_function_with_return_value()
 	//	cout << str << endl;
 	//}
 	
-	cout << factorial(5) << endl;
+	//cout << factorial(5) << endl;
+
+	//ex6.30
+	//string str1 = "HelloWorld", str2 = "HelloWorld";
+	//cout << std::boolalpha << str_subrange(str1, str2) << endl;
+	
+	//ex6.32
+	//int ia[10];
+	//for (int i = 0; i != 10; ++i)
+	//{
+	//	get(ia, i) = i;
+	//}
+	//for (int i = 0; i != 10; ++i)
+	//{
+	//	cout << ia[i] << endl;
+	//}
+
+
+	//ex6.33
+	//vector<int> vec{ 0, 1, 2, 3, 4, 5 };
+	//print_vec(vec.begin(), vec.end());
+}
+
+
+//ex6.36
+string (&func(string (&arrstr)[10])) [10]
+{
+
+
+}
+
+
+//6.3.3 返回数组指针
+void Fun_Returning_a_Pointer_to_an_Array()
+{
+
+
 }
 
 int main()
@@ -112,7 +176,9 @@ int main()
 	//Fun_function_without_return_value();
 
 	//6.3.2 无返回值函数
-	Fun_function_with_return_value();
+	//Fun_function_with_return_value();
 
+	//6.3.3 返回数组指针
+	Fun_Returning_a_Pointer_to_an_Array();
 	return 0;
 }
