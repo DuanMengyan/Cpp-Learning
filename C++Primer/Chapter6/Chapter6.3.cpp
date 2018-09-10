@@ -6,7 +6,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年09月08日 星期六
-> Last edited time: 2018年9月09日 星期日
+> Last edited time: 2018年9月10日 星期一
 > Topic:C++Primer Chapter6.3 返回类型和return语句
 ************************************************************************/
 
@@ -17,6 +17,7 @@
 #include <cctype>
 #include <stdexcept>
 #include <initializer_list>
+#include <ctime>
 
 using std::runtime_error;
 using std::cin;
@@ -155,19 +156,36 @@ void Fun_function_with_return_value()
 }
 
 
-//ex6.36
-string (&func(string (&arrstr)[10])) [10]
+//ex6.36 声明一个返回数组指针的函数
+string (&func(string (&arrstr)[5]))[5];
+
+//typedef string arrT[5];
+using arrT = string[5];
+
+//ex6.37 类型别名
+arrT& func(arrT arr_string);
+
+//ex6.37 使用尾置返回类型
+auto func(int i)-> string (&)[5];
+
+//ex6.37-ex6.38 使用decltype
+string str1[5] = { "hello1", "hello1", "hello1", "hello1", "hello1" };
+string str2[5] = { "hello2", "hello2", "hello2", "hello2", "hello2" };
+
+decltype(str1) & arrPtr(int i)
 {
-
-
+	return (i % 2) ? str1 : str2;
 }
 
 
 //6.3.3 返回数组指针
 void Fun_Returning_a_Pointer_to_an_Array()
 {
+	//string str3[] = { "hello", "world" };
+	//func(str3);
 
-
+	arrPtr(3)[4] = "AAA";
+	cout << arrPtr(3)[4] << endl;
 }
 
 int main()
@@ -180,5 +198,6 @@ int main()
 
 	//6.3.3 返回数组指针
 	Fun_Returning_a_Pointer_to_an_Array();
+
 	return 0;
 }
