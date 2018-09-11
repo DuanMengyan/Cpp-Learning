@@ -50,11 +50,12 @@ int *reset(int *val)
 	return val;
 }
 
-//double * reset(double *val)
-//{
-//	*val = 5.5;
-//	return val;
-//}
+double * reset(double *val)
+{
+	*val = 5.5;
+	return val;
+}
+
 //函数重载
 void Fun_Overloaded_Functions()
 {
@@ -81,10 +82,22 @@ void Fun_Overloaded_Functions()
 
 }
 
+//6.4.1 重载与作用域
+void Fun_Overloading_and_Scope()
+{
+	//如果在内层作用域中声明名字，它将隐藏外层作用域中声明的同名实体
+	//在C++语言中，名字查找发生在类型检查之前
+
+}
+
+
 
 int main()
-{
+{	//函数重载
 	Fun_Overloaded_Functions();
+
+	//6.4.1 重载与作用域
+	Fun_Overloading_and_Scope();
 	return 0;
 }
 
