@@ -7,7 +7,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年9月15日 星期六
-> Last edited time: 2018年9月21日 星期五
+> Last edited time: 2018年9月23日 星期日
 > Topic:C++Primer Chapter7.1 定义抽象数据类型
 ************************************************************************/
 
@@ -20,18 +20,9 @@
 #include <initializer_list>
 #include <ctime>
 #include "Sales_item.h"
+#include "Sales_data.h"
 
-using std::istream;
-using std::ostream;
-using std::cin;
-using std::cout;
-using std::endl;
-using std::getline;
-using std::string;
-using std::vector;
-using std::begin;
-using std::end;
-using std::initializer_list;
+using namespace std;
 
 //Defining Abstract Data Types
 
@@ -47,23 +38,23 @@ using std::initializer_list;
 void Fun_Designing_the_Sales_data_Class()
 {
 	//Sales_data total;
-	//if (cin >> total.bookNo >> total.unitis_sold >> total.revenue)
+	//if (cin >> total.bookNo >> total.units_sold >> total.revenue)
 	//{
 	//	Sales_data trans;
-	//	while (cin >> trans.bookNo >> trans.unitis_sold >> trans.revenue)
+	//	while (cin >> trans.bookNo >> trans.units_sold >> trans.revenue)
 	//	{
 	//		if (total.bookNo == trans.bookNo)
 	//		{
-	//			total.unitis_sold += trans.unitis_sold;
+	//			total.units_sold += trans.units_sold;
 	//			total.revenue += trans.revenue;
 	//		}
 	//		else
 	//		{
-	//			cout << total.bookNo << " " << total.unitis_sold << " " << total.revenue << endl;
+	//			cout << total.bookNo << " " << total.units_sold << " " << total.revenue << endl;
 	//			total = trans;
 	//		}
 	//	}
-	//	cout << total.bookNo << " " << total.unitis_sold << " " << total.revenue << endl;
+	//	cout << total.bookNo << " " << total.units_sold << " " << total.revenue << endl;
 	//}
 	//else
 	//{
@@ -71,61 +62,16 @@ void Fun_Designing_the_Sales_data_Class()
 	//}
 }
 
-//改进的Sales_data
-struct Sales_data
-{
-	//关于Sales_data对象的操作，定义在类内部的函数是隐式的inline函数
-	string isbn() const { return bookNo; }  
-	Sales_data &combine(const Sales_data&);
-	double avg_price() const;	
-
-	string bookNo;
-	unsigned units_sold = 0;	//销量
-	double revenue = 0.0;    //总收入
-};
-double Sales_data::avg_price() const
-{
-	if (units_sold)
-		return revenue / units_sold;
-	else
-		return 0;
-}
-Sales_data& Sales_data::combine(const Sales_data &rhs)
-{
-	units_sold += rhs.units_sold;		//把rhs的成员加到this对象的成员上
-	revenue += rhs.revenue;
-	return *this;						//返回调用该函数的对象
-}
-
-
-//Sales_data的非成员接口函数
-Sales_data add(const Sales_data &lhs, const Sales_data &rhs)
-{
-	Sales_data sum = lhs;
-	sum.combine(rhs);
-	return sum;
-}
-
-ostream &print(ostream &os, const Sales_data &item)
-{
-	os << item.isbn() << "  " << item.units_sold << "  "
-		<< item.revenue << "  " << item.avg_price() << endl;
-	return os;
-}
-
-istream &read(istream &is, Sales_data &item)
-{
-	double price = 0;
-	is >> item.bookNo >> item.units_sold >> price;
-	item.revenue = price * item.units_sold;
-	return is;
-}
-
 
 //ex7.4
 class Person
 {
 public:
+	Person() = default;
+	Person(const string &name) :Name(name) {};
+	Person(const string &name, const string &addr) :Name(name), address(addr){};
+	Person(istream&);
+
 	string get_name() const
 	{
 		return Name;
@@ -143,7 +89,7 @@ public:
 //ex7.9
 ostream& output(ostream &os, const Person &per)
 {
-	os << per.get_name() << "    " << per.get_address();
+	os << per.get_name() << "    " << per.get_address() << endl;
 	return os;
 }
 
@@ -153,6 +99,10 @@ istream& input(istream &is,Person &per)
 	return is;
 }
 
+Person::Person(istream&is)
+{
+	input(is, *this);
+}
 
 //7.1.2 定义改进的Sales_data类
 void Fun_Defining_the_Revised_Sales_data_Class()
@@ -243,7 +193,6 @@ void Fun_Defining_the_Revised_Sales_data_Class()
 
 }
 
-
 //7.1.3 定义类相关的非成员函数
 void Fun_Defining_Nonmember_Class_Related_Functions()
 {
@@ -299,8 +248,91 @@ void Fun_Defining_Nonmember_Class_Related_Functions()
 //7.1.4 构造函数
 void Fun_Constructors()
 {
+	//类通过一个或几个特殊的成员函数来控制其对象的初始化过程，这些函数叫做构造函数
+	//构造函数的任务是初始化类对象的数据成员，无论何时只要类的对象被创建，就会执行构造函数
+
+	//构造函数的名字和类名相同，且没有返回类型
+	//构造函数不能声明成const，构造函数在const对象的构造过程中可以向其写值
+
+	//合成的默认构造函数
+	//只有当类没有声明任何构造函数时，编译器才会自动生成默认构造函数
+
+	//含有内置类型或复合类型成员的类应该在类的内部初始化这些成员，
+	//或者定义一个自己的默认构造函数
+	//否则用户在创建类的对象时就可能得到未定义的值
+
+	//如果类中包含一个其他类型的成员且这个成员的类型没有默认构造函数，
+	//那么编译器将无法初始化该成员，必须自定义默认构造函数
+
+	//构造函数初始值列表
+	//负责为新创建的对象的一个或几个数据成员赋值
+	//构造函数使用类内初始值不失为一种好的选择，
+	//因为只要这样的初始值存在，就可以确保为成员赋予了一个正确的值
+	//如果编译器不支持类内初始值，则所有的构造函数都应该显式地初始化每个内置类型的成员
 
 
+	//在类的外部定义构造函数
+
+	//ex7.11
+	//Sales_data item1;
+	//print(cout, item1);
+
+	//Sales_data item2("888888");
+	//print(cout, item2);
+
+	//Sales_data item3("888888", 5, 20.00);
+	//print(cout, item3);
+
+	//Sales_data item4(cin);
+	//print(cout, item4);
+
+	//ex7.12
+	//在头文件开始声明struct Sales_data和read函数，然后在struct Sales_data结构体定义内部使用read函数
+
+	//ex7.13
+	//Sales_data total(cin);
+	//if (!total.isbn().empty())
+	//{
+	//	while (cin)
+	//	{
+	//		Sales_data trans(cin);
+	//		if (!cin) break;
+	//		if (total.isbn() == trans.isbn())
+	//		{
+	//			total.combine(trans);
+	//		}
+	//		else
+	//		{
+	//			print(cout, total);
+	//			total = trans;
+	//		}
+	//	}
+	//	print(cout, total);
+	//}
+	//else
+	//{
+	//	std::cerr << "No data?!" << endl;
+	//}
+
+	//ex7.14
+
+	//ex7.15
+	Person item1;
+	cout << "Person1:\t";
+	output(cout, item1);//默认是两个空字符串
+
+	Person item2("Tom");
+	cout << "Person2:\t";
+	output(cout, item2);
+
+	Person item3("Tom", "helloworld");
+	cout << "Person3:\t";
+	output(cout, item3);
+
+	Person item4(cin);
+	cout << "Person4:\t";
+	output(cout, item4);
+	
 }
 
 
