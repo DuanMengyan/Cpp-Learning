@@ -7,7 +7,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年9月15日 星期六
-> Last edited time: 2018年9月23日 星期日
+> Last edited time: 2018年9月24日 星期一
 > Topic:C++Primer Chapter7.1 定义抽象数据类型
 ************************************************************************/
 
@@ -317,24 +317,28 @@ void Fun_Constructors()
 	//ex7.14
 
 	//ex7.15
-	Person item1;
-	cout << "Person1:\t";
-	output(cout, item1);//默认是两个空字符串
+	//Person item1;
+	//cout << "Person1:\t";
+	//output(cout, item1);//默认是两个空字符串
 
-	Person item2("Tom");
-	cout << "Person2:\t";
-	output(cout, item2);
+	//Person item2("Tom");
+	//cout << "Person2:\t";
+	//output(cout, item2);
 
-	Person item3("Tom", "helloworld");
-	cout << "Person3:\t";
-	output(cout, item3);
+	//Person item3("Tom", "helloworld");
+	//cout << "Person3:\t";
+	//output(cout, item3);
 
-	Person item4(cin);
-	cout << "Person4:\t";
-	output(cout, item4);
+	//Person item4(cin);
+	//cout << "Person4:\t";
+	//output(cout, item4);
 	
 }
 
+//7.1.5 拷贝、赋值和析构
+void Fun_Copy_Assignment_and_Destruction()
+{
+}
 
 int main()
 {
@@ -348,7 +352,10 @@ int main()
 	//Fun_Defining_Nonmember_Class_Related_Functions();
 
 	//7.1.4 构造函数
-	Fun_Constructors();
+	//Fun_Constructors();
+
+	//7.1.5 拷贝、赋值和析构
+	Fun_Copy_Assignment_and_Destruction();
 
 	return 0;
 }
