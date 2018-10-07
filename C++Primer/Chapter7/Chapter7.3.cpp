@@ -6,7 +6,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年9月26日 星期三
-> Last edited time: 2018年10月5日 星期五
+> Last edited time: 2018年10月7日 星期日
 > Topic:C++Primer Chapter7.3 类的其他特性
 ************************************************************************/
 
@@ -21,10 +21,30 @@
 
 using namespace std;
 
-class Screen
+class Screen;
+
+class Window_mgr
 {
 public:
+	//窗口中每个屏幕的编号
+	using ScreenIndex = std::vector<Screen>::size_type;
+	//按照编号将指定的Screen重置为空白
+	void clear(ScreenIndex);
+private:
+	//std::vector<Screen> screens{ Screen(24, 80, ' ') };
+	std::vector<Screen> screens;
+};
 
+
+class Screen
+{	
+
+public:
+	//Window_mgr的成员可以访问Screen类的私有部分
+	//friend class Window_mgr;
+	//令成员函数作为友元
+	friend void Window_mgr::clear(ScreenIndex);
+	
 	void some_menber() const;
 	typedef string::size_type pos;   //用来定义类型的成员必须先定义后使用
 	//using pos = string::size_type;
@@ -80,6 +100,14 @@ private:
 		//os << contents << endl;
 	}
 };
+
+
+void Window_mgr::clear(ScreenIndex i)
+{
+	Screen &s = screens[i];
+	s.contents = string(s.height*s.width, ' ');
+}
+
 
 inline 
 Screen &Screen::set(char c)
@@ -139,13 +167,14 @@ char Screen::get(pos r,pos c) const
 	}
 }
 
-class Window_mgr
-{
-private:
-	//这个window_mgr追踪的Screen
-	//默认情况下，一个Window_mgr包含一个标准尺寸的空白Screen
-	//vector<Screen> screens{ Screen(24, 80, ' ') };  //列表初始化
-};
+
+//class Window_mgr
+//{
+//private:
+//	//这个window_mgr追踪的Screen
+//	//默认情况下，一个Window_mgr包含一个标准尺寸的空白Screen
+//	//vector<Screen> screens{ Screen(24, 80, ' ') };  //列表初始化
+//};
 
 //7.3.1 类成员再探
 void Fun_Class_Members_Revisited()
@@ -242,6 +271,47 @@ void Fun_Class_Types()
 }
 
 
+
+struct X
+{
+	friend void f(){/*友元函数可以定义在类的内部*/}
+	//X(){ f(); }				//错误，f还未被声明
+	void g();
+	void h();
+};
+
+//void X::g(){ return f(); }		//错误，f还未被声明
+void f();						//声明定义在X中的友元函数f
+void X::h(){ return f(); }
+
+//7.3.4 友元再探
+void Fun_Friendship_Revisited()
+{
+	//友元函数能定义在类的内部，这样的函数是隐式内联的
+
+	//类之间的友元关系
+	//Window_mgr是Screen的友元类，友元类的成员函数可以访问此类包括非公有成员在内的所有成员
+	//友元关系不存在传递性，Window_mgr的友元不具有访问Screen的特权
+	//每个类负责控制自己的友元类或友元函数
+
+	//令成员函数作为友元
+	//1.首先定义Window_mgr类，其中声明clear函数，但是不定义它。
+	//	在clear使用Screen的成员函数之前必须先声明Screen。
+	//2.接下来定义Screen，包括对于clear的友元声明
+	//3.最后定义clear，此时它才可以使用Screen的成员。
+
+	//函数重载和友元
+	//如果想把一组重载函数声明成它的友元，需要对这组函数中的每一个分别声明
+
+	//友元声明和作用域
+
+
+
+
+}
+
+
+
 int main()
 {
 	//7.3.1 类成员再探
@@ -249,6 +319,8 @@ int main()
 	//7.3.2 返回*this的成员函数
 	//Fun_Functions_That_Return_this();
 	//7.3.3 类类型
-	Fun_Class_Types();
+	//Fun_Class_Types();
+	//7.3.4 友元再探
+	Fun_Friendship_Revisited();
 	return 0;
 }
