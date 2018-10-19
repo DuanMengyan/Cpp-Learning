@@ -4,8 +4,9 @@
 #ifndef SALES_DATA_H
 #define SALES_DATA_H
 
-#include <iostream>
-#include <string>
+//#include <iostream>
+//#include <string>
+#include "header_include.h"
 
 using namespace std;
 
@@ -17,15 +18,28 @@ struct Sales_data
 {
 	//新增的构造函数
 	//Sales_data() = default;
-	Sales_data(): bookNo(""), units_sold(0), revenue(0){ }//使用类内初始值显式地初始化成员
-	Sales_data(const string &s) :bookNo(s){ }
-	Sales_data(const string&s, unsigned n, double p):
-		bookNo(s), units_sold(n), revenue(p*n) { }
+	//Sales_data(): bookNo(""), units_sold(0), revenue(0){ }//使用类内初始值显式地初始化成员
+	//Sales_data(const string &s) :bookNo(s){ }
+	//Sales_data(const string&s, unsigned n, double p):
+	//	bookNo(s), units_sold(n), revenue(p*n) { }
 	//Sales_data(istream&);//在类的外部定义
-	Sales_data(istream & is)
-	{
-		read(is, *this);
-	}
+	//Sales_data(std::istream &is = std::cin) { read(is, *this); }
+	//Sales_data(istream & is)
+	//{
+	//	read(is, *this);
+	//}
+	
+	Sales_data(string s, unsigned cnt, double price) :
+		bookNo(s), units_sold(cnt), revenue(cnt*price) 
+		{
+			cout << "Constructor_three" << endl;
+		}
+	//委托构造函数
+	Sales_data() :Sales_data("", 0, 0) { cout << "Constructor_default" << endl; }
+	Sales_data(string s) :Sales_data(s, 0, 0) { cout << "Constructor_string_s" << endl; }
+	Sales_data(istream &is) :Sales_data() { read(is, *this); }
+
+
 
 	//关于Sales_data对象的操作，定义在类内部的函数是隐式的inline函数
 	string isbn() const { return bookNo; }
@@ -47,8 +61,8 @@ Sales_data add(const Sales_data &lhs, const Sales_data &rhs)
 
 ostream &print(ostream &os, const Sales_data &item)
 {
-	os << item.isbn() << "  " << item.units_sold << "  "
-		<< item.revenue << "  " << item.avg_price() << endl;
+	os << item.isbn() << " " << item.units_sold << " "
+		<< item.revenue << " " << item.avg_price() << endl;
 	return os;
 }
 
