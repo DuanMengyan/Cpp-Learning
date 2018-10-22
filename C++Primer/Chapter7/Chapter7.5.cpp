@@ -19,8 +19,8 @@
 //#include <stdexcept>
 //#include <initializer_list>
 //#include <ctime>
-//#include "Sales_data.h"
-#include "Book.h"
+#include "Sales_data.h"
+//#include "Book.h"
 
 
 using namespace std;
@@ -132,22 +132,126 @@ void Fun_Delegating_Constructors()
 	//print(cout, book3);
 }
 
+//ex7.43
+class NoDefault
+{
+public:
+	NoDefault(){ value = 6; };
+	NoDefault(int num):value(num){};
+	void getvalue()
+	{
+		cout << value << "\t";
+	};
+private:
+	int value;
+};
+
+class C
+{
+public:
+	//C():member(5){};
+	C(){};
+	void getmembervalue()
+	{
+		member.getvalue();
+	}
+
+private:
+	NoDefault member;
+};
+
+
 //7.5.3 默认构造函数的作用
 void Fun_The_Role_of_the_Default_Constructor()
 {
+	//ex7.43
 	
-
+	//ex7.44
+	//不合法，因为NoDefault没有构造函数
+	//vector<NoDefault> vec(10);
+	//for (auto i = 0; i < 10; ++i)
+	//{
+	//	vec[1].getvalue();
+	//}
+	
+	//ex7.45
+	//合法，C定义了默认的构造函数
+	//vector<C> vec(10);
+	//for (auto i = 0; i < 10; ++i)
+	//{
+	//	vec[i].getmembervalue();
+	//}
+	
+	//ex7.46
+	//(a)类不提供构造函数时，由编译器给类合成默认构造函数
+	//(b)给类成员提供默认值的构造函数是默认构造函数
+	//(c)
+	//(d)没有定义其他任何构造函数，编译器才合成默认构造函数；
 }
 
+//7.5.4 隐式的类类型转换
+void Fun_Implicit_Class_Type_Conversions()
+{
+	//只允许一步类类型转换
+	Sales_data item1("9999-999-99-9"), item2;
+	//item.combine("9999-999-99-9");  错误，两次转换
+	//显式转换为string，隐式转换为Sales_data；
+	//item2=item1.combine(string("9999-999-99-9"));
+	//print(cout, item2);
+	//隐式转换为string,显式转换为Sales_data
+	//item2 = item1.combine(Sales_data("9999-999-99-9"));
+	//print(cout, item2);
+	
+	//类类型转换不是总有效
+	//item2 = item1.combine(cin);
+	//print(cout, item2);
+	
+	
+	//抑制构造函数函数定义的隐式转换
+	//explicit关键字抑制构造函数隐式转换
+	//string null_book = "88-8-8";
+	//item2 = item1.combine(cin);		 //编译不通过
+	//item2 = item1.combine(null_book);  //编译不通过
+	//print(cout, item2);
+
+	//explicit只对一个实参的构造函数有效，需要多个实参的构造函数不能用于执行隐式转换。
+	//explicit构造函数只能用于直接初始化，编译器不会在自动转换过程中使用该构造函数
+
+	//为转换显式地使用构造函数
+	
+	//ex7.47 
+	//优点：
+	//1.抑制在需要隐式转换的的地方使用构造函数
+	//2.可以定义一个只用于直接初始化形式的构造函数
+	//缺点：
+	//只对一个实参的构造函数有效
+	
+	//ex7.48
+	//(1)直接初始化一个string对象
+	//(2)隐式转换初始化一个item对象
+	//(3)直接初始化一个item对象
+	//声明explicit关键字，也没有问题
+	
+	
+	//ex7.49
+	//(1)合法
+	//(2)不合法 Sales_data和Sales_data&之间不能转换
+	//(3)不合法，最后的const不正确，因为该函数会改变this的值
+	
+	//ex7.50
+	//ex7.51
+}
 int main()
 {
 
 	//7.5.1 构造函数初始值列表
 	//Fun_Constructor_Initializer_List();
 	//7.5.2 委托构造函数
-	Fun_Delegating_Constructors();
-
-
+	//Fun_Delegating_Constructors();
+	//7.5.3 默认构造函数的作用
+	//Fun_The_Role_of_the_Default_Constructor();
+	//7.5.4 隐式的类类型转换
+	Fun_Implicit_Class_Type_Conversions();
 
 	return 0;
 
