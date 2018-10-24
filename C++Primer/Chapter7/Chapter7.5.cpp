@@ -6,7 +6,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年10月12日 星期五
-> Last edited time: 2018年10月19日 星期五
+> Last edited time: 2018年10月24日 星期三
 > Topic:C++Primer Chapter7.5 构造函数再探
 ************************************************************************/
 
@@ -193,7 +193,7 @@ void Fun_The_Role_of_the_Default_Constructor()
 void Fun_Implicit_Class_Type_Conversions()
 {
 	//只允许一步类类型转换
-	Sales_data item1("9999-999-99-9"), item2;
+	Sales_data item1("9999-999-99-9"), item2;-
 	//item.combine("9999-999-99-9");  错误，两次转换
 	//显式转换为string，隐式转换为Sales_data；
 	//item2=item1.combine(string("9999-999-99-9"));
@@ -241,6 +241,35 @@ void Fun_Implicit_Class_Type_Conversions()
 	//ex7.50
 	//ex7.51
 }
+
+struct Data
+{
+	int ival;
+	string s;
+};
+
+//7.5.5聚合类
+void Fun_Aggregate_Classes()
+{
+	//所有成员都是public；
+	//没有定义任何构造函数；
+	//没有类内初始值
+	//没有基类，也没有virtual函数
+	//初始值必须与声明的顺序一致
+
+	Data vall = { 0, "Anna" };
+
+	//ex7.52
+	//Sales_data两个成员已被初始化
+}
+
+//7.5.6字面值常量类
+void Fun_Literal_Classes()
+{
+
+
+}
+
 int main()
 {
 
@@ -251,8 +280,11 @@ int main()
 	//7.5.3 默认构造函数的作用
 	//Fun_The_Role_of_the_Default_Constructor();
 	//7.5.4 隐式的类类型转换
-	Fun_Implicit_Class_Type_Conversions();
-
+	//Fun_Implicit_Class_Type_Conversions();
+	//7.5.5聚合类
+	//Fun_Aggregate_Classes();
+	//7.5.6字面值常量类
+	Fun_Literal_Classes();
 	return 0;
 
 }
