@@ -114,9 +114,9 @@ void Fun_The_IO_Classes()
 
 
 
-int main()
-{
-	//8.1 IO¿‡
-	Fun_The_IO_Classes();
-	return 0;
-}
+//int main()
+//{
+//	//8.1 IO¿‡
+//	Fun_The_IO_Classes();
+//	return 0;
+//}
