@@ -7,11 +7,12 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年11月9日 星期五
-> Last edited time: 2018年11月9日 星期五
+> Last edited time: 2018年11月11日 星期日
 > Topic:C++Primer Chapter9.3 顺序容器操作
 ************************************************************************/
 
 #include "header_include.h"
+#include "Sales_data.h"
 
 using namespace std;
 
@@ -32,7 +33,7 @@ void Fun_Adding_Elements_to_a_Sequential_Container()
 	//随后对容器中元素的任何改变不会影响到原始对象，反之亦然
 
 
-	//使用push_back
+	//使用push_front
 	//list<int> ilist;
 	//for (size_t ix = 0; ix != 4; ++ix)
 	//	ilist.push_front(ix);
@@ -52,13 +53,36 @@ void Fun_Adding_Elements_to_a_Sequential_Container()
 
 	//插入范围内元素
 	//迭代器表示要拷贝的范围，不能指向添加元素的目标容器
-	list<int> ilist;
-	vector<int>  v = { 1, 2, 3, 4 };
-	auto i = ilist.insert(ilist.begin(), v.end() - 2, v.end());
-	cout << *i << endl;
+	//list<int> ilist;
+	//vector<int>  v = { 1, 2, 3, 4 };
+	//auto i = ilist.insert(ilist.begin(), v.end() - 2, v.end());
+	//cout << *i << endl;
 	
 	//使用insert的返回值
-	list<string> lst;
+	//list<string> lst;
+	//auto iter = lst.begin();
+	//string word;
+	//while (cin >> word)
+	//{
+	//	iter = lst.insert(iter, word);		//等价于push_front
+	//} 
+
+	//使用empalce操作
+	//调用empalce成员函数，将参数值传递给元素类型的构造函数
+	//empalce成员使用这些参数在容器管理的内存空间中直接构造元素（创造对象）
+	//empalce函数的参数根据元素的类型而变化，参数必须与元素类型的构造函数相匹配。
+
+	vector<Sales_data> c;
+	Sales_data item1("88-XX",5,30.00);
+	c.push_back(item1);
+	auto iter = c.begin();
+	//print(cout,*iter);
+	c.emplace_back();
+	c.emplace_back(iter,"");
+	
+
+
+
 
 }
 
