@@ -171,13 +171,152 @@ void Fun_Adding_Elements_to_a_Sequential_Container()
 
 }
 
-//9.3
+//9.3.2 访问元素
+void Fun_Accessing_Elements()
+{
+	//在解引用一个迭代器或调用front或back之前检查是否有元素，确保容器非空
+	//front和back返回首元素和尾元素的引用
+	//vector<int> c = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	//if (!c.empty())
+	//{
+	//	auto val1 = *c.begin(), val2 = c.front();
+	//	auto last = c.end();
+	//	auto val3 = *(--last);
+	//	auto val4 = c.back();
+	//}
 
 
-//9.3
+	//at和下标操作只适用于string、vector、deque和array
+	//c.at(n)返回下标为n的元素的引用。
+	
+	
+	//访问成员函数返回的是引用
+	//vector<int> c = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	//if (!c.empty())
+	//{
+	//	c.front() = 42;
+	//	auto &v = c.back();
+	//	v = 1204;
+	//	auto v2 = c.back();
+	//	v2 = 0;
+	//}
+	//for (auto i : c)
+	//{
+	//	cout << i << "   ";
+	//}
+	//cout << endl;
+
+	//下标操作和安全的随机访问
+	//vector<int> c;
+	//cout << c[0] << endl;
+	//cout << c.at(0) << endl;
+
+	//ex9.23
+	//vector<int> c = {1};
+	//if (!c.empty())
+	//{
+	//	auto val1 = *c.begin(), val2 = c.front();
+	//	auto last = c.end();
+	//	auto val3 = *(--last);
+	//	auto val4 = c.back();
+	//	cout << val1 << endl;
+	//	cout << val2 << endl;
+	//	cout << val3 << endl;
+	//	cout << val4 << endl;
+	//}
+	//全都是1
+
+	//ex9.24
+	//vector<int> c = { 2 };
+	//if (!c.empty())
+	//{
+	//	cout << c.at(0) << endl;
+	//	cout << c[0] << endl;
+	//	cout << c.front() << endl;
+	//	cout << *c.begin() << endl;
+	//}
+
+}
 
 
-//9.3
+//9.3.3 删除元素
+void Fun_Erasing_Elements()
+{
+	//pop_front和pop_back成员你函数
+	//list<int> ilist = { 1, 2, 3, 4 };
+	//while (!ilist.empty())
+	//{
+	//	cout << ilist.back() << "   ";
+	//	ilist.pop_back();
+	//}
+
+	//从容器内部删除一个元素esrse
+	//list<int> ilist = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	//auto iter = ilist.begin();
+	//while (iter != ilist.end())
+	//{
+	//	if (*iter % 2)
+	//		iter = ilist.erase(iter);
+	//	else
+	//		iter++;
+	//}
+
+	//删除多个元素
+	//list<string> slist;
+	//slist.clear();
+	//slist.erase(slist.begin(), slist.end());
+
+	//ex25
+	//vector<string> svec = { "hello", "world", "C++", "Primer" };
+	////slist.clear();
+	//auto elem1 = svec.begin();
+	//auto elem2 = svec.end();
+	//auto iter = svec.erase(elem1, elem1);        //调用之后iter == slist.begin()
+	//cout << *iter << endl;
+
+	//ex26
+	//int ia[] = { 0, 1, 1, 2, 3, 5, 8, 13, 21, 55, 89 };
+	//list<int> evenlst;
+	//vector<int> oddvec;
+	//for (int i = 0; i != 11; ++i)
+	//{
+	//	evenlst.push_back(ia[i]);
+	//	oddvec.push_back(ia[i]);
+	//}
+	//for (auto iter = evenlst.begin(); iter != evenlst.end(); )
+	//{
+
+	//	if (*iter % 2 == 0)
+	//		iter = evenlst.erase(iter);
+	//	else
+	//	{
+	//		iter++;
+	//	}
+	//}
+	//for (auto iter = evenlst.begin(); iter != evenlst.end(); iter++)
+	//{
+	//	cout << *iter << "   ";
+	//}
+	//cout << "\n==========================" << endl;
+	//for (auto iter = oddvec.begin(); iter != oddvec.end();)
+	//{
+
+	//	if (*iter % 2 != 0)
+	//		iter = oddvec.erase(iter);
+	//	else
+	//	{
+	//		iter++;
+	//	}
+	//}
+	//for (auto iter = oddvec.begin(); iter != oddvec.end(); iter++)
+	//{
+	//	cout << *iter << "   ";
+	//}
+
+}
+
+
+//9.3.4
 
 
 
@@ -185,7 +324,10 @@ void Fun_Adding_Elements_to_a_Sequential_Container()
 int main()
 {
 	//9.3.1 向顺序容器添加元素
-	Fun_Adding_Elements_to_a_Sequential_Container();
-
+	//Fun_Adding_Elements_to_a_Sequential_Container();
+	//9.3.2 访问元素
+	//Fun_Accessing_Elements();
+	//9.3.3 删除元素
+	Fun_Erasing_Elements();
 	return 0;
 }
