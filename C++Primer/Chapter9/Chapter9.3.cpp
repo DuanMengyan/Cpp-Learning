@@ -7,7 +7,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年11月9日 星期五
-> Last edited time: 2018年11月11日 星期日
+> Last edited time: 2018年11月25日 星期日
 > Topic:C++Primer Chapter9.3 顺序容器操作
 ************************************************************************/
 
@@ -66,23 +66,108 @@ void Fun_Adding_Elements_to_a_Sequential_Container()
 	//{
 	//	iter = lst.insert(iter, word);		//等价于push_front
 	//} 
+	//for (auto str : lst)
+	//{
+	//	cout << str << "   " << endl;
+	//}
 
 	//使用empalce操作
 	//调用empalce成员函数，将参数值传递给元素类型的构造函数
 	//empalce成员使用这些参数在容器管理的内存空间中直接构造元素（创造对象）
 	//empalce函数的参数根据元素的类型而变化，参数必须与元素类型的构造函数相匹配。
 
-	vector<Sales_data> c;
-	Sales_data item1("88-XX",5,30.00);
-	c.push_back(item1);
-	auto iter = c.begin();
-	//print(cout,*iter);
-	c.emplace_back();
-	c.emplace_back(iter,"");
+	//vector<Sales_data> c;
+	//Sales_data item1("88-XX", 5, 30.0);
+	//c.push_back(item1);					//push_back将item拷贝到c中
+	//c.emplace_back();					//使用Sales_data的默认构造函数在尾部构造一个元素
+	//auto iter = c.begin();				//
+	//c.emplace(iter, "897-XX");
+	//c.emplace_back("896-XX");
+	//for (auto item : c)
+	//{
+	//	print(cout, item);
+	//}
+	
+	//ex9.18
+	//deque<string> str_dq;
+	//string str_temp;
+	//while (cin >> str_temp)
+	//{
+	//	str_dq.push_back(str_temp);
+	//}
+	//for (auto str : str_dq)
+	//{
+	//	cout << str << "   ";
+	//}
+
+	//ex9.19
+	//list<string> str_lst;
+	//string str_temp;
+	//while (cin >> str_temp)
+	//{
+	//	str_lst.push_back(str_temp);
+	//}
+	//for (auto str : str_lst)
+	//{
+	//	cout << str << "   ";
+	//}
+
+	//ex9.20
+	//list<int> int_lst = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	//deque<int> odd_dq, even_dq;
+	//for (int i : int_lst)
+	//{
+	//	(i % 2 == 0 ? even_dq : odd_dq).push_back(i);
+	//}
+	//cout << "odd:\t";
+	//for (int i : odd_dq)
+	//{
+	//	cout << i << "   ";
+	//}
+	//cout << "\neven:\t";
+	//for (int i : even_dq)
+	//{
+	//	cout << i << "   ";
+	//}
+	//cout << endl;
 	
 
+	//ex9.21
+	//vector<string> str_vec;
+	//auto iter = str_vec.begin();
+	//string word;
+	//ifstream input;
+	//input.open("Text.txt");
+	//while (getline(input, word))
+	//{
+	//	iter = str_vec.insert(iter, word);		//等价于push_front
+	//}
+	//for (auto str : str_vec)
+	//{
+	//	cout << str << "   " << endl;
+	//}
 
 
+	//ex9.22
+	vector<int> iv = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	vector<int>::iterator iter = iv.begin(), mid = iv.begin() + iv.size() / 2;
+	
+	while (iter != mid)
+	{
+		if (*mid == 5)
+		{
+			mid = iv.insert(mid, 2 * 5);
+			iter = iv.begin();
+		}
+		else
+		{
+			mid--;
+		}
+	}
+	for (auto i : iv)
+	{
+		cout << i << "   ";
+	}
 
 }
 
