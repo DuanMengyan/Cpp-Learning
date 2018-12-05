@@ -7,7 +7,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年11月9日 星期五
-> Last edited time: 2018年11月25日 星期日
+> Last edited time: 2018年12月5日 星期三
 > Topic:C++Primer Chapter9.3 顺序容器操作
 ************************************************************************/
 
@@ -18,6 +18,7 @@ using namespace std;
 
 //9.3 顺序容器操作
 //Sequential Container Operations
+
 
 //9.3.1 向顺序容器添加元素
 void Fun_Adding_Elements_to_a_Sequential_Container()
@@ -171,6 +172,7 @@ void Fun_Adding_Elements_to_a_Sequential_Container()
 
 }
 
+
 //9.3.2 访问元素
 void Fun_Accessing_Elements()
 {
@@ -316,9 +318,108 @@ void Fun_Erasing_Elements()
 }
 
 
-//9.3.4
+void fuc_ex9_28(forward_list<string> str_flst, string str1, string str2)
+{
+	auto prev = str_flst.before_begin();
+	auto curr = str_flst.begin();
+	while (curr != str_flst.end())
+	{
+		if (*curr != str1)
+		{
+			prev = curr;
+			++curr;
+		}
+		else
+		{
+			str_flst.insert_after(curr, str2);
+			break;
+		}
+	}
+	if (curr == str_flst.end())
+		str_flst.insert_after(prev, str2);
+
+	for (auto str : str_flst)
+	{
+		cout << str << endl;
+	}
+}
+//9.3.4 特殊的forward_list操作
+void Fun_Specialized_forward_list_Operations()
+{
+	//forward_list<int> flst = { 0,1,2,3,4,5,6,7,8,9 };
+	//vector<int> ivec = { 5,5,5,5,5 };
+	//auto prev = flst.before_begin();			//表示flst的“首前元素”
+	//auto curr = flst.begin();					//表示flst中的第一个元素
+	//flst.insert_after(prev, 5);
+	//flst.insert_after(prev, 5, 0);
+	//flst.insert_after(prev, ivec.begin(), ivec.end());
+	//flst.insert_after(prev, { 1,2,3,4,5 });
+
+	//while (curr != flst.end())
+	//{
+	//	if (*curr % 2)
+	//		curr = flst.erase_after(prev);
+	//	else
+	//	{
+	//		prev = curr;
+	//		++curr;
+	//	}
+	//}
+	//for (int i : flst)
+	//{
+	//	cout << i << "  ";
+	//}
+	//cout << endl;
+	//"=====================" << endl;
+	
+	//ex9.27
+	//forward_list<int> flst = { 0,1,2,3,4,5,6,7,8,9 };
+	//auto prev = flst.before_begin();
+	//auto curr = flst.begin();
+	//while (curr != flst.end())
+	//{
+	//	if (*curr % 2)
+	//		curr = flst.erase_after(prev);
+	//	else
+	//	{
+	//		prev = curr;
+	//		++curr;
+	//	}
+	//}
+	//for (int i : flst)
+	//{
+	//	cout << i << "  ";
+	//}
+	//cout << endl;
+
+	//ex9.28
+	forward_list<string> str_flst = { "hello","world","C++","5th" };
+	string str1 = "C++",str2 = "primer";
+	fuc_ex9_28(str_flst, str1, str2);
+}
 
 
+//9.3.5 改变容器大小
+void Fun_Resizing_a_Container()
+{
+	//list<int> ilist(10, 42);
+	//ilist.resize(15);
+	//ilist.resize(15, 5);
+	//ilist.resize(5);
+
+	//for (auto i : ilist)
+	//{
+	//	cout << i << "   ";
+	//}
+	//cout << endl;
+
+	//ex9.29
+	//vec容器大小首先变成100，包含25个原来的值和75个0；之后变成10，后面的元素会被删除，vec变成10个原来的值
+
+	//ex9.30
+	//如果元素类型是类类型，这必须初始化，或必须有默认构造函数
+
+}
 
 
 int main()
@@ -328,6 +429,10 @@ int main()
 	//9.3.2 访问元素
 	//Fun_Accessing_Elements();
 	//9.3.3 删除元素
-	Fun_Erasing_Elements();
+	//Fun_Erasing_Elements();
+	//9.3.4 特殊的forward_list操作
+	//Fun_Specialized_forward_list_Operations();
+	//9.3.5 改变容器大小
+	Fun_Resizing_a_Container();
 	return 0;
 }
