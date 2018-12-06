@@ -7,7 +7,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年11月9日 星期五
-> Last edited time: 2018年12月5日 星期三
+> Last edited time: 2018年12月6日 星期四
 > Topic:C++Primer Chapter9.3 顺序容器操作
 ************************************************************************/
 
@@ -422,6 +422,109 @@ void Fun_Resizing_a_Container()
 }
 
 
+template <class T> 
+void Myprint(T & container)
+{
+	//打印容器中的元素
+	for (auto i : container)
+	{
+		cout << i << "  ";
+	}
+	cout << endl;
+}
+
+
+//9.3.6 容器操作可能是迭代器失效
+void Fun_Container_Operations_May_Invalidate_Iterators()
+{
+	//编写改变容器的循环程序
+	//vector<int> vi = { 0,1,2,3,4,5,6,7,8,9 };
+	//auto iter = vi.begin();
+	//while (iter != vi.end())
+	//{
+	//	if (*iter % 2)
+	//	{
+	//		iter = vi.insert(iter, *iter);		//在iter指向的元素之前插入新元素，然后返回指向新元素的迭代器
+	//		iter += 2;							//跳过当前元素和插入到它之前的迭代器
+	//	}
+	//	else
+	//	{
+	//		iter = vi.erase(iter);				//删除偶数元素，返回指向删除元素之后元素的迭代器
+	//	}
+	//}
+	//Myprint(vi);
+
+	//不要保存end返回的迭代器
+	//auto begin = vi.begin();
+	//while (begin != vi.end())					//必须在每次循环操作之后重新调用end()	
+	//{
+	//	++begin;
+	//	begin = vi.insert(begin, 42);			//在begin之前插入42，返回的begin指向42
+	//	++begin;
+	//}
+	//Myprint(vi);
+
+	//ex9.31
+	//list<int> ilist = { 0,1,2,3,4,5,6,7,8,9 };
+	//auto iter = ilist.begin();
+	//while (iter != ilist.end())
+	//{
+	//	if (*iter % 2)
+	//	{
+	//		iter = ilist.insert(iter, *iter);		
+	//		advance(iter, 2);
+	//	}
+	//	else
+	//	{
+	//		iter = ilist.erase(iter);				
+	//	}
+	//}
+	//Myprint(ilist);
+
+	//cout << "====================================================" << endl;
+
+	//forward_list<int> iflist = { 0,1,2,3,4,5,6,7,8,9 };
+	//auto prev =iflist.before_begin(), curr = iflist.begin();
+	//while (curr != iflist.end())
+	//{
+	//	if (*curr % 2)
+	//	{
+	//		curr = iflist.insert_after(prev, *curr);
+	//		advance(curr, 2);
+	//		advance(prev, 2);
+	//	}
+	//	else
+	//	{
+	//		curr = iflist.erase_after(prev);
+	//	}
+	//}
+	//Myprint(iflist);
+
+	//ex9.32
+	// ++高于*解引用符号，复制的是奇数后面的一个数，
+	//此处验证下，实际插入的还是奇数元素，
+	
+	//ex9.33
+	//崩溃，插入后迭代器失效
+
+	//ex9.34
+	vector<int> vi = { 0,1,2,3,4,5,6,7,8,9 };
+	auto iter = vi.begin();
+	while (iter != vi.end())
+	{
+		if (*iter % 2)
+		{
+			iter = vi.insert(iter, *iter);
+			iter += 2;
+		}
+		else
+		{
+			iter++;
+		}
+	}
+	Myprint(vi);
+}
+
 int main()
 {
 	//9.3.1 向顺序容器添加元素
@@ -433,6 +536,8 @@ int main()
 	//9.3.4 特殊的forward_list操作
 	//Fun_Specialized_forward_list_Operations();
 	//9.3.5 改变容器大小
-	Fun_Resizing_a_Container();
+	//Fun_Resizing_a_Container();
+	//9.3.6 容器操作可能是迭代器失效
+	Fun_Container_Operations_May_Invalidate_Iterators();
 	return 0;
 }
