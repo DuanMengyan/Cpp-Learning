@@ -56,6 +56,61 @@ void Fun_Other_Ways_to_Construct_strings()
 	//reverse()预留够足够的内存
 }
 
+//string &str_replace(string &s,  string const& oldVal,  string const& newVal)
+//{
+//	auto curr = s.begin();
+//	while (curr != s.end())
+//	{
+//		decltype(oldVal.size()) i = 0;
+//		for (; i != oldVal.size(); ++i)
+//		{
+//			if (oldVal[i] != *(curr + i))
+//				break;
+//		}
+//		if (i == oldVal.size())
+//		{
+//			int len = curr - s.begin();
+//			//s.erase(curr-s.begin(), i);
+//			//s.insert((curr-s.begin()),newVal);
+//			s.replace(curr - s.begin(), i, newVal);
+//			//cout << *curr << endl;
+//			//curr = s.insert(curr, newVal.begin(),newVal.end());
+//			curr += newVal.size();
+//			if (curr != s.end())
+//			{
+//				cout << *curr << endl;
+//			}
+//			
+//		}
+//		else
+//		{
+//			curr++;
+//		}		
+//	}
+//	return s;
+//}
+
+//ex9.44
+string &str_replace(string &s, string const& oldVal, string const& newVal)
+{
+	for (size_t curr = 0; curr <= (s.size() - oldVal.size());)
+	{
+		if (s[curr] == oldVal[0] && s.substr(curr, oldVal.size()) == oldVal)
+		{
+			//s.erase(curr, oldVal.size());
+			//s.insert(curr, newVal);
+			s.replace(curr, oldVal.size(), newVal);
+			curr += newVal.size();
+		}
+		else
+		{
+			++curr;
+		}
+
+	}
+	return s;
+}
+
 
  //9.5.2 改变sreing的其他方法
 void Fun_Other_Ways_to_Change_a_string()
@@ -83,15 +138,34 @@ void Fun_Other_Ways_to_Change_a_string()
 	//s.erase(11, 3);				//从s[11]开始删除3个字符
 	//s.insert(11, "5th");			
 	//cout << s << endl;
-	//s2.replace(11, 3, "5th");	//将s2[11]开始的3个字符替换成“5th”
+	//s2.replace(11, 3, "5th");		//将s2[11]开始的3个字符替换成“5th”
 	//cout << s2 << endl;
 
 	//改变string的多种重载函数
 
 	//ex9.43
+	//string s = "aa456456a456", old = "456", newstr = " ---zzz ";
+	//s = str_replace(s, old, newstr);
+	//cout << s << endl;
+
+
+
+
+	//string s = "0123456",s2 = "  333  ";
+	//auto iter = s.begin() + 4;
+	//cout << *iter << endl;
+	////s.erase(iter-s.begin(), 3);
+	////s.insert(iter - s.begin(),s2);
+	//s.replace(iter,iter+3,s2);
+	//cout << *iter << endl;
+	//iter += s2.size();
+	////cout << s<<"     "<< *iter << endl;
+	//cout << s <<"   "<<s.size()<< endl;
 
 	//ex9.44
-	
+	string s = "aa456456a456", old = "456", newstr = " ---zzz ";
+	s = str_replace(s, old, newstr);
+	cout << s << endl;
 	//ex9.45
 	
 	//ex9.46
