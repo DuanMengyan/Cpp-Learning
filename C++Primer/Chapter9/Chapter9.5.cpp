@@ -56,42 +56,29 @@ void Fun_Other_Ways_to_Construct_strings()
 	//reverse()预留够足够的内存
 }
 
-//string &str_replace(string &s,  string const& oldVal,  string const& newVal)
-//{
-//	auto curr = s.begin();
-//	while (curr != s.end())
-//	{
-//		decltype(oldVal.size()) i = 0;
-//		for (; i != oldVal.size(); ++i)
-//		{
-//			if (oldVal[i] != *(curr + i))
-//				break;
-//		}
-//		if (i == oldVal.size())
-//		{
-//			int len = curr - s.begin();
-//			//s.erase(curr-s.begin(), i);
-//			//s.insert((curr-s.begin()),newVal);
-//			s.replace(curr - s.begin(), i, newVal);
-//			//cout << *curr << endl;
-//			//curr = s.insert(curr, newVal.begin(),newVal.end());
-//			curr += newVal.size();
-//			if (curr != s.end())
-//			{
-//				cout << *curr << endl;
-//			}
-//			
-//		}
-//		else
-//		{
-//			curr++;
-//		}		
-//	}
-//	return s;
-//}
+//ex9.43
+string &str_replace(string &s,  string const& oldVal,  string const& newVal)
+{
+	for (auto curr = s.begin(); curr <= (s.end() - oldVal.size());)
+	{
+
+		if (*curr==*(oldVal.begin()) && s.substr(curr-s.begin(),oldVal.size())==oldVal)
+		{
+			curr = s.erase(curr, curr+oldVal.size());
+			curr = s.insert(curr,newVal.begin(),newVal.end());
+			//s.replace(curr,curr+oldVal.size(),newVal);				//字符替换以后，curr迭代器失效
+			curr += newVal.size();
+		}
+		else
+		{
+			curr++;
+		}		
+	}
+	return s;
+}
 
 //ex9.44
-string &str_replace(string &s, string const& oldVal, string const& newVal)
+string &str_replace2(string &s, string const& oldVal, string const& newVal)
 {
 	for (size_t curr = 0; curr <= (s.size() - oldVal.size());)
 	{
@@ -111,8 +98,22 @@ string &str_replace(string &s, string const& oldVal, string const& newVal)
 	return s;
 }
 
+//ex9.45
+string &name_edit(string &Name, string const &prev, string const &last)
+{
+	Name.insert(Name.begin(), prev.cbegin(), prev.cend());
+	Name.append(last);
+	return Name;
+}
 
- //9.5.2 改变sreing的其他方法
+//ex9.46
+string &name_edit2(string &Name, string const &prev, string const &last)
+{
+	Name.insert(0, prev);
+	Name.insert(Name.size(), last);
+	return Name;
+}
+ //9.5.2 改变string的其他方法
 void Fun_Other_Ways_to_Change_a_string()
 {
 	//const char *cp = "Stately, plump Buck";
@@ -144,33 +145,25 @@ void Fun_Other_Ways_to_Change_a_string()
 	//改变string的多种重载函数
 
 	//ex9.43
-	//string s = "aa456456a456", old = "456", newstr = " ---zzz ";
+	//replace()、insert()、erase()中范围用到迭代器的，注意之后迭代器指向问题
+	//string s = "aa456456a456aa", old = "456", newstr = "---zzz=";
 	//s = str_replace(s, old, newstr);
 	//cout << s << endl;
 
-
-
-
-	//string s = "0123456",s2 = "  333  ";
-	//auto iter = s.begin() + 4;
-	//cout << *iter << endl;
-	////s.erase(iter-s.begin(), 3);
-	////s.insert(iter - s.begin(),s2);
-	//s.replace(iter,iter+3,s2);
-	//cout << *iter << endl;
-	//iter += s2.size();
-	////cout << s<<"     "<< *iter << endl;
-	//cout << s <<"   "<<s.size()<< endl;
-
 	//ex9.44
-	string s = "aa456456a456", old = "456", newstr = " ---zzz ";
-	s = str_replace(s, old, newstr);
-	cout << s << endl;
+	//string s = "aa456456a456", old = "456", newstr = " ---zzz ";
+	//s = str_replace2(s, old, newstr);
+	//cout << s << endl;
+
 	//ex9.45
-	
+	//string name = "Bod",prev = "Mr.",last = ",Jr.";
+	//name = name_edit(name, prev, last);
+	//cout << name << endl;
+
 	//ex9.46
-
-
+	//string name = "Bod",prev = "Mr.",last = ",Jr.";
+	//name = name_edit2(name, prev, last);
+	//cout << name << endl;
 }
  //9.5.3
  
