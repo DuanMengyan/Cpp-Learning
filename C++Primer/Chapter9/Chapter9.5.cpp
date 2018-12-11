@@ -7,7 +7,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年12月8日 星期六
-> Last edited time: 2018年12月8日 星期六
+> Last edited time: 2018年12月11日 星期二
 > Topic:C++Primer Chapter9.5 额外的string操作
 ************************************************************************/
 
@@ -126,14 +126,14 @@ void Fun_Other_Ways_to_Change_a_string()
 	//string s1 = "some string", s2 = "some other string";
 	//s1.insert(0, s2);					//在s1[0]之前插入s2的拷贝
 	//cout << s1 << endl;
-	//s1.insert(0, s2, 0, s2.size());		//在s1[0]之前插入s2[0]开始的s2.size()个字符
+	//s1.insert(0, s2, 0, s2.size());		//在s1[0]之前插入s2[0]开始的s2,size()个字符
 	//cout << s1 << endl;
 
-	//append和replace函数
+	////append和replace函数
 	//string s("C++ Primer"), s2 = s;
-	//s.insert(s.size(), " 4th Ed.");
+	//s.insert(s.size(), " 4th Ed,");
 	//cout << s << endl;
-	//s2.append(" 4th Ed.");
+	//s2.append(" 4th Ed,");
 	//cout << s2 << endl;
 
 	//s.erase(11, 3);				//从s[11]开始删除3个字符
@@ -142,26 +142,26 @@ void Fun_Other_Ways_to_Change_a_string()
 	//s2.replace(11, 3, "5th");		//将s2[11]开始的3个字符替换成“5th”
 	//cout << s2 << endl;
 
-	//改变string的多种重载函数
+	////改变string的多种重载函数
 
-	//ex9.43
-	//replace()、insert()、erase()中范围用到迭代器的，注意之后迭代器指向问题
+	////ex9.43
+	////replace()、insert()、erase()中范围用到迭代器的，注意之后迭代器指向问题
 	//string s = "aa456456a456aa", old = "456", newstr = "---zzz=";
 	//s = str_replace(s, old, newstr);
 	//cout << s << endl;
 
-	//ex9.44
+	////ex9.44
 	//string s = "aa456456a456", old = "456", newstr = " ---zzz ";
 	//s = str_replace2(s, old, newstr);
 	//cout << s << endl;
 
-	//ex9.45
-	//string name = "Bod",prev = "Mr.",last = ",Jr.";
+	////ex9.45
+	//string name = "Bod",prev = "Mr,",last = ",Jr,";
 	//name = name_edit(name, prev, last);
 	//cout << name << endl;
 
-	//ex9.46
-	//string name = "Bod",prev = "Mr.",last = ",Jr.";
+	////ex9.46
+	//string name = "Bod",prev = "Mr,",last = ",Jr,";
 	//name = name_edit2(name, prev, last);
 	//cout << name << endl;
 }
@@ -178,8 +178,6 @@ void findchar(string &str,  string const& chars)
 		++pos;
 	}
 }
-
-//ex9.48
 
 //ex9.49
 int find_middlealphabet(string &word, string const& middle_chars)
@@ -234,7 +232,7 @@ void Fun_string_Search_Operations()
 	//返回结果是string::npos
 
 	//ex9.49
-	//ifstream input("words.txt");
+	//ifstream input("words,txt");
 	//string curr_word, max_word, middle = "acemnorsuvwxz";
 	//int max_count = 0, curr_count = 0;
 	//while (input >> curr_word)
@@ -247,17 +245,108 @@ void Fun_string_Search_Operations()
 	//		max_count = curr_count;
 	//	}
 	//}
-	//cout <<"The word \""<< max_word <<"\" has "<<max_count<<" middle alphabets."<< endl;
+	//cout <<"The word \""<< max_word <<"\" has "<<max_count<<" middle alphabets,"<< endl;
 
 }
 
 
-//9.5.4
+//9.5.4 compare函数
+void Fun_The_compare_Functions()
+{
+	//根据s是等于、大于还是小于参数指定的字符串，s,compare返回0、正数或负数
+	string str1 = "hello", str2 = "world";
+	cout << str1.compare(str2) << endl;					//hello和world比较	-1
+	cout << str1.compare(4, 1, str2, 1, 1) << endl;		//o和o比较			0	
+	cout << str1.compare(1, 3, str2) << endl;			//ell和world比较		-1
+	
+	char *str_cp = "world";
+	cout << str1.compare(4, 1, str_cp + 1, 1) << endl;	//o和o比较			0
+	//将s中从pos1开始的n1个字符与指针cp指向的地址开始的n2个字符进行比较
+}
  
 
+class MyData
+{
+public:
+	MyData() {};
+	MyData(string &str)
+	{
+		vector<string> sub_vec;
+		string::size_type pos = 0;
+		while ((pos = str.find_first_of(" ,/")) != string::npos)
+		{
+			sub_vec.push_back(str.substr(0, pos));
+			str.erase(0, pos + 1);
+		}
+		sub_vec.push_back(str);
+		if (sub_vec[0].find_first_of("0123456789") != string::npos)
+		{
+			month = stoi(sub_vec[0]);
+		}
+		else
+		{
+			if (sub_vec[0].find("Jan") < sub_vec[0].size())  month = 1;
+			if (sub_vec[0].find("Feb") < sub_vec[0].size())  month = 2;
+			if (sub_vec[0].find("Mar") < sub_vec[0].size())  month = 3;
+			if (sub_vec[0].find("Apr") < sub_vec[0].size())  month = 4;
+			if (sub_vec[0].find("May") < sub_vec[0].size())  month = 5;
+			if (sub_vec[0].find("Jun") < sub_vec[0].size())  month = 6;
+			if (sub_vec[0].find("Jul") < sub_vec[0].size())  month = 7;
+			if (sub_vec[0].find("Aug") < sub_vec[0].size())  month = 8;
+			if (sub_vec[0].find("Sep") < sub_vec[0].size())  month = 9;
+			if (sub_vec[0].find("Oct") < sub_vec[0].size())  month = 10;
+			if (sub_vec[0].find("Nov") < sub_vec[0].size())  month = 11;
+			if (sub_vec[0].find("Dec") < sub_vec[0].size())  month = 12;
+		}
+		day = stoi(sub_vec[1]);
+		year = stoi(sub_vec[2]);
+	};
+
+	void print_Data()
+	{
+		cout << year << " " << month << " " << day << " " << endl;
+	}
+private:
+	unsigned year;
+	unsigned month;
+	unsigned day;
+};
 
 
-//9.5.5
+
+//9.5.5 数值转换
+void Fun_Numeric_Conversions()
+{
+	//int i = 42;
+	//string s = to_string(i);
+	//cout << s << endl;
+	//double d = stod(s);
+	//cout << d << endl;
+
+	//要转换成数值的string中第一个非空白符必须是数值中可能出现的字符
+	//string s2 = "pi = 3,14";
+	//cout << s2,find_first_of("+-,0123456789") << endl;
+	//double d = stod(s2,substr(s2,find_first_of("+-,0123456789")));
+	//cout << d << endl;
+
+	//ex9.50
+	//vector<string> ivec = { "20","30","40","10" };
+	//int sum = 0;
+	//for (auto s : ivec)
+	//{
+	//	sum += stoi(s);
+	//}
+	//cout << sum << endl;
+
+	//ex9.51
+	string str = "12/11/2018", str2 = "Dec 11 2018";
+
+	MyData today(str), yesterday(str2);
+	today.print_Data();
+	yesterday.print_Data();
+
+
+}
  
 
 
@@ -272,8 +361,18 @@ int main()
 
 	//9.5.2 改变sreing的其他方法
 	//Fun_Other_Ways_to_Change_a_string();
+
 	//9.5.3 string搜索操作
-	Fun_string_Search_Operations();
+	//Fun_string_Search_Operations();
+
+	//9.5.4 compare函数
+	//Fun_The_compare_Functions();
+	
+	//9.5.5 数值转换
+	Fun_Numeric_Conversions();
+
 	return 0;
 
 }
+
+
