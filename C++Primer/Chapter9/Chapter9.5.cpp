@@ -165,11 +165,99 @@ void Fun_Other_Ways_to_Change_a_string()
 	//name = name_edit2(name, prev, last);
 	//cout << name << endl;
 }
- //9.5.3
+
+
+//ex9.47
+void findchar(string &str,  string const& chars)
+{
+	string::size_type pos = 0;
+	cout << "found ekements in " << str << endl;
+	while ((pos = str.find_first_of(chars, pos)) != string::npos)
+	{
+		cout << "index: " << pos << " is element: " << str[pos] << endl;	
+		++pos;
+	}
+}
+
+//ex9.48
+
+//ex9.49
+int find_middlealphabet(string &word, string const& middle_chars)
+{
+	string::size_type pos = 0; int count = 0;
+	while ((pos = word.find_first_of(middle_chars, pos)) != string::npos)
+	{
+		count++;
+		++pos;
+	}
+	return count;
+}
+
+//9.5.3 string搜索操作
+void Fun_string_Search_Operations()
+{
+	//find返回第一个匹配位置的下标
+	//npos是const string::size_type类型
+	//string numbers("0123456789"), name("r2d2");
+	//auto pos = name.find_first_of(numbers);
+	//auto pos2 = numbers.find_first_not_of(name);
+	//cout << pos << "      " << pos2 << endl;
+
+	//指定在那里开始搜索
+	//string::size_type pos = 0;
+	//string numbers("0123456789"), name("0132");
+	//while ((pos = name.find_first_of(numbers, pos)) != string::npos)
+	//{
+	//	cout << "Found number at index: " << pos
+	//		 << " element is " << name[pos] << endl;
+	//	++pos;
+	//}
+
+	//逆向搜索
+	//rfind成员函数搜索最后一个匹配，即子字符串最靠右的出现位置
+	//string river("Mississippi");
+	//auto first_pos = river.find("is");
+	//auto last_pos = river.rfind("is");
+	//cout << first_pos << "     " << last_pos << endl;
+
+	//ex9.47
+	//string str = "ab2c3d7R4E6";
+	//string numbers = "0123456789";
+	//string alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ";
+	//findchar(str, numbers);
+	//findchar(str, alphabet);
+	
+	//ex9.48
+	//string name = "r2d2";
+	//string numbers = "0123456789";
+	//cout << numbers.find(name) << endl;
+	//返回结果是string::npos
+
+	//ex9.49
+	//ifstream input("words.txt");
+	//string curr_word, max_word, middle = "acemnorsuvwxz";
+	//int max_count = 0, curr_count = 0;
+	//while (input >> curr_word)
+	//{
+	//	curr_count = find_middlealphabet(curr_word, middle);
+	//	//cout << curr_word << "\t\t : " << curr_count << endl;
+	//	if (max_count < curr_count)
+	//	{
+	//		max_word = curr_word;
+	//		max_count = curr_count;
+	//	}
+	//}
+	//cout <<"The word \""<< max_word <<"\" has "<<max_count<<" middle alphabets."<< endl;
+
+}
+
+
+//9.5.4
  
- //9.5.4
- 
- //9.5.5
+
+
+
+//9.5.5
  
 
 
@@ -181,9 +269,11 @@ int main()
 {
 	//9.5.1 构造string的其他方法
 	//Fun_Other_Ways_to_Construct_strings();
-	//9.5.2 改变sreing的其他方法
-	Fun_Other_Ways_to_Change_a_string();
 
+	//9.5.2 改变sreing的其他方法
+	//Fun_Other_Ways_to_Change_a_string();
+	//9.5.3 string搜索操作
+	Fun_string_Search_Operations();
 	return 0;
 
 }
