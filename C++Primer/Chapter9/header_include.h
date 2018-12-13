@@ -13,6 +13,8 @@
 #include <forward_list>
 #include <deque>
 #include <array>
+#include <stack>
+#include <queue>
 #include <cstddef>
 #include <cctype>
 #include <stdexcept>
