@@ -7,7 +7,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年12月13日 星期四
-> Last edited time: 2018年12月13日 星期四
+> Last edited time: 2018年12月16日 星期日
 > Topic:C++Primer Chapter10.2 初识泛型算法
 ************************************************************************/
 
@@ -131,8 +131,62 @@ void Fun_Algorithms_That_Write_Container_Elements()
 
 }
 
-//Chapter10.2.3
+//ex10.9
+void elimDups(vector<string> &words)
+{
+	sort(words.begin(), words.end());
+	auto end_unique = unique(words.begin(),words.end());
+	words.erase(end_unique, words.end());
+}
 
+
+//Chapter10.2.3 重排容器元素的算法
+void Fun_Algorithms_That_Reorder_Container_Elements()
+{
+	//调用sort会重新排列输入序列中的元素，使之有序，它是利用元素类型的<运算符来实现排序的
+
+	//消除重复单词
+	//标准库算法对迭代器而不是容器进行操作。因此，算法不能(直接)添加或删除元素。
+	//使用容器操作删除元素
+	//ifstream input("Text10.2.txt");
+	//string word;
+	//vector<string> words;
+	//while (input >> word)
+	//{
+	//	words.push_back(word);
+	//}
+	//sort(words.begin(), words.end());
+	////unique算法重新排列输入序列，将相邻的重复项“消除”，并返回一个指向不重复范围末尾的迭代器，最后一个不重复元素之后的位置
+	//auto end_unique = unique(words.begin(), words.end());
+	//words.erase(end_unique, words.end());
+	//for (auto str : words)
+	//{
+	//	cout << str << " ";
+	//}
+	//cout << endl;
+
+	//ex.10.9
+	//ifstream input("Text10.2.txt");
+	//string word;
+	//vector<string> words;
+	//while (input >> word)
+	//{
+	//	words.push_back(word);
+	//}
+	//elimDups(words);
+	//for (auto str : words)
+	//{
+	//	cout << str << " ";
+	//}
+	//cout << endl;
+
+
+	//ex.10.10
+	//算法只对迭代器操作，不对容器进行操作
+
+
+
+}
 
 
 int main()
@@ -140,8 +194,8 @@ int main()
 	//Chapter10.2.1
 	//Fun_Read_Only_Algorithms();
 	//Chapter10.2.2 写容器元素的算法
-	Fun_Algorithms_That_Write_Container_Elements();
-
-	
+	//Fun_Algorithms_That_Write_Container_Elements();
+	//Chapter10.2.3 重排容器元素的算法
+	Fun_Algorithms_That_Reorder_Container_Elements();
 	return 0;
 }
