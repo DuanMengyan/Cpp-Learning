@@ -71,8 +71,8 @@ void Fun_Passing_a_Function_to_an_Algorithm()
 	//printitem(words);
 	////是的所有长度为3的单词排在长度为4的单词之前，然后是长度为5的单词，依次类推。
 	//sort(words.begin(), words.end());
+	//printitem(words);
 	//sort(words.begin(), words.end(), isShorter);
-	//
 	//printitem(words);
 	
 	
@@ -88,6 +88,7 @@ void Fun_Passing_a_Function_to_an_Algorithm()
 	//MyelimDups(words);
 	//printitem(words);
 	////按照长度重新排序，长度相同的单词维持字典序
+	////类似stable_sort稳定排序算法维持相等元素的原有顺序
 	//stable_sort(words.begin(), words.end(), isShorter);
 	//printitem(words);
 	
@@ -135,9 +136,86 @@ void Fun_Passing_a_Function_to_an_Algorithm()
 	//cout << endl;
 }
 
+string make_plural(size_t ctr, const string &word, const string &ending)
+{
+	return (ctr > 1) ? word + ending : word;
+}
+
+
+void biggies(vector<string> &words, vector<string>::size_type sz)
+{
+	MyelimDups(words);	//将words按字典序排序，删除重复单词
+	printitem(words);
+	//按长度排序，长度相同的单词维持字典序
+	stable_sort(words.begin(), words.end(), isShorter);
+	printitem(words);
+	//定义一个lambda
+	//[sz](const string &str) {return str.size() >= sz; };
+	//获取一个迭代器，指向第一个满足size()>=sz的元素
+	auto wc = find_if(words.begin(), words.end(), [sz](const string &str) {return str.size() >= sz; });
+	//计算满足size()>=sz的元素数目
+	auto count = words.end() - wc;
+	//打印长度大于等于给定值的单词，每个单词后面接一个空格
+	cout << count << " " << make_plural(count, "word", "s")
+		<< " of length " << sz << " or longer " << endl;
+}
+
+//10.3.2 Lambda表达式
+void Fun_Lambda_Expressions()
+{
+
+	//find_if算法接受一对迭代器，表示一个范围，第三个参数是一个谓词。
+	//返回第一个使谓词返回非0值得元素，如果不存在，返回尾迭代器
+
+	//介绍lambda
+	//一个lambda表达式表示一个可调用的代码单元。我们可以将其理解为一个未命名的内联函数
+	//lambda与任何函数类似，但是可以定义在函数内部，lambda必须使用尾置返回
+	//我们可以忽略参数列表和返回类型，但必须永远包含捕获列表(通常为空)和函数体
+	//auto f = []() -> int { return 42; };
+	//cout << f() << endl;		//打印42
+	//如果忽略返回类型，且lambda的函数体只是一个return语句，则返回类型从返回的表达式的类型推断而来；否则。则为void
+	//lambda的函数体包含任何单一return语句之外的内容，且未指定返回类型，则返回void
+
+	//向lambda传递参数
+	//lambda不能有默认参数，一个lambda调用的实参数目永远等于形参数目
+	//一个与isShorter函数完成相同功能的lambda
+	//ifstream input("Text10.2.txt");
+	//string word;
+	//vector<string> words;
+	//while (input >> word)
+	//{
+	//	words.push_back(word);
+	//}
+	//printitem(words);
+	//auto lambda_f = [](const string &str1, const string &str2) {return str1.size() < str2.size(); };
+	//
+	//MyelimDups(words);
+	//printitem(words);
+	//stable_sort(words.begin(), words.end(), lambda_f);
+	//printitem(words);
+
+	//使用捕获列表
+	//一个lambda只有在其捕获列表中捕获一个它所在函数的局部变量，才能在函数体中使用该变量
+
+	//调用find_if
+	//使用此lambda，我们就可以查找第一个长度大于等于sz的元素
+	//获取一个迭代器，指向第一个满足size()>=sz的元素
+	ifstream input("Text10.2.txt");
+	string word;
+	vector<string> words;
+	while (input >> word)
+	{
+		words.push_back(word);
+	}
+	printitem(words);
+	biggies(words, 4);
+}
+
 int main()
 {
 	//10.3.1 向算法传递函数
 	//Fun_Passing_a_Function_to_an_Algorithm();
+	//10.3.2 Lambda表达式
+	Fun_Lambda_Expressions();
 	return 0;
 }
