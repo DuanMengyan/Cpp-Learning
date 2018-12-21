@@ -7,7 +7,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年12月17日 星期一
-> Last edited time: 2018年12月18日 星期二
+> Last edited time: 2018年12月21日 星期五
 > Topic:C++Primer Chapter10.3 定制操作
 ************************************************************************/
 
@@ -141,23 +141,26 @@ string make_plural(size_t ctr, const string &word, const string &ending)
 	return (ctr > 1) ? word + ending : word;
 }
 
-
 void biggies(vector<string> &words, vector<string>::size_type sz)
 {
 	MyelimDups(words);	//将words按字典序排序，删除重复单词
-	printitem(words);
+	cout << "dict_sorted:\t"; printitem(words);
 	//按长度排序，长度相同的单词维持字典序
-	stable_sort(words.begin(), words.end(), isShorter);
-	printitem(words);
+	stable_sort(words.begin(), words.end(), [](const string &str1, const string &str2) {return str1.size() < str2.size(); });
+	cout << "stable_sorted:\t"; printitem(words);
 	//定义一个lambda
-	//[sz](const string &str) {return str.size() >= sz; };
+	auto f = [sz](const string &str) {return str.size() >= sz; };
 	//获取一个迭代器，指向第一个满足size()>=sz的元素
-	auto wc = find_if(words.begin(), words.end(), [sz](const string &str) {return str.size() >= sz; });
+	auto wc = find_if(words.begin(), words.end(), f);
+	//auto wc = stable_partition(words.begin(), words.end(), f);
 	//计算满足size()>=sz的元素数目
 	auto count = words.end() - wc;
-	//打印长度大于等于给定值的单词，每个单词后面接一个空格
 	cout << count << " " << make_plural(count, "word", "s")
 		<< " of length " << sz << " or longer " << endl;
+	cout << "=============================" << endl;
+	//打印长度大于等于给定值的单词，每个单词后面接一个空格
+	for_each(wc, words.end(), [](const string &str) {cout << str << "   "; });
+	cout << endl << "=============================" << endl;
 }
 
 //10.3.2 Lambda表达式
@@ -200,16 +203,55 @@ void Fun_Lambda_Expressions()
 	//调用find_if
 	//使用此lambda，我们就可以查找第一个长度大于等于sz的元素
 	//获取一个迭代器，指向第一个满足size()>=sz的元素
-	ifstream input("Text10.2.txt");
-	string word;
-	vector<string> words;
-	while (input >> word)
-	{
-		words.push_back(word);
-	}
-	printitem(words);
-	biggies(words, 4);
+	//for_each算法
+
+	//ifstream input("Text10.2.txt");
+	//string word;
+	//vector<string> words;
+	//while (input >> word)
+	//{
+	//	words.push_back(word);
+	//}
+	//cout << "original:\t"; printitem(words);
+	//biggies(words, 5);
+
+	//ex10.14
+	//auto f = [](const int &num1, const int &num2) -> int {return num1 + num2; };
+	
+	//ex10.15
+	//int value = 5;
+	//[value](const int &num) {return num + value; };
+	
+	//ex10.16
+	
+	//ex10.17
+	//ifstream input("Text10.3.txt");
+	//Sales_data item;
+	//vector<Sales_data> vec;
+	//while (read(input,item))
+	//{
+	//	vec.push_back(item);
+	//}
+	//for (auto book : vec)
+	//{
+	//	print(cout, book);
+	//}
+	//cout << "==========================" << endl;
+	////比较两个对象的isbn，使用该函数进行排序
+	//auto lam = [](const Sales_data &item1, const Sales_data &item2) {return item1.isbn() < item2.isbn(); };
+	//sort(vec.begin(), vec.end(), lam);
+	//for (auto &book : vec)
+	//{
+	//	print(cout, book);
+	//}
+	//cout << "==========================" << endl;
+
+	//ex10.18
+	
+	//ex10.19
+	
 }
+
 
 int main()
 {
