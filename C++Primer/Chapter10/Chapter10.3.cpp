@@ -7,7 +7,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年12月17日 星期一
-> Last edited time: 2018年12月21日 星期五
+> Last edited time: 2018年12月25日 星期二
 > Topic:C++Primer Chapter10.3 定制操作
 ************************************************************************/
 
@@ -252,12 +252,133 @@ void Fun_Lambda_Expressions()
 	
 }
 
+//引用捕获例子
+void biggies2(vector<string> &words, vector<string>::size_type sz, ostream &os , char c = ' ')
+{
+	MyelimDups(words);
+	stable_sort(words.begin(), words.end(), [](const string &str1, const string &str2) {return str1.size() < str2.size(); });
+	cout << "stable_sorted:\t"; printitem(words);
+	//定义一个lambda
+	auto f = [sz](const string &str) {return str.size() >= sz; };
+	//获取一个迭代器，指向第一个满足size()>=sz的元素
+	auto wc = find_if(words.begin(), words.end(), f);
+	//auto wc = stable_partition(words.begin(), words.end(), f);
+	//计算满足size()>=sz的元素数目
+	auto count = words.end() - wc;
+	cout << count << " " << make_plural(count, "word", "s")
+		<< " of length " << sz << " or longer " << endl;
+	cout << "=============================" << endl;
+	for_each(words.begin(), words.end(), [&os, c](const string &s) { os << s << c << endl; });
+}
+
+//ex10.20
+void biggies3(vector<string> &words, vector<string>::size_type sz)
+{
+	MyelimDups(words);
+	stable_sort(words.begin(), words.end(), [](const string &str1, const string &str2) {return str1.size() < str2.size(); });
+	cout << "stable_sorted:\t"; printitem(words);
+	//定义一个lambda
+	auto f = [sz](const string &str) {return str.size() >= sz; };
+	//统计size()>=sz为真的次数
+	auto num = count_if(words.begin(), words.end(), f);
+	//计算满足size()>=sz的元素数目
+	cout << num << " " << make_plural(num, "word", "s")
+		<< " of length " << sz << " or longer " << endl;
+	cout << "=============================" << endl;
+}
+
+//10.3.3 lambda捕获和返回
+void Fun_Lambda_Captures_and_Returns()
+{
+	//值捕获
+	//被捕获变量的值是在lambda创建时拷贝，因此随后对其修改不会影响到lambda内变量的值
+	//size_t v1 = 42;
+	//auto f = [v1] {return v1; };
+	//v1 = 0;
+	//auto j = f();
+	//cout << j << endl;
+	//
+	////引用捕获
+	////必须确保被引用的对象在lambda执行的时候仍然存在
+	//size_t v2 = 42;
+	//auto f2 = [&v2] {return v2; };
+	//v2 = 0;
+	//auto j2 = f2();
+	//cout << j2 << endl;
+
+	//lambda接受一个ostream的引用
+	//IO对象无拷贝或赋值，进行IO操作的函数通常以引用方式传递和返回流，
+	//lambda中也是如此,捕获os的唯一方法就是捕获其引用（或指向os的指针）
+	
+	//ifstream input("Text10.2.txt");
+	//string word;
+	//vector<string> words;
+	//while (input >> word)
+	//{
+	//	words.push_back(word);
+	//}
+	//cout << "original:\t"; printitem(words);
+	//ofstream  output("Text10.2.2.txt");
+	//biggies2(words, 5, output);
+	//output.close();
+
+	//如果函数返回lambda，此lambda也不能包含引用捕获
+	//当以引用方式捕获一个变量时，必须保证lambda执行时变量是存在的
+
+	//隐式捕获
+	//可变lambda
+	//在参数列表首加上关键字mutable，可以改变被捕获变量的值
+	//size_t v1 = 42;
+	//auto f = [v1]() mutable {return ++v1; };
+	//v1 = 0;
+	//auto j = f();
+	//cout << j << "   " << v1<<endl;				//43   0
+	//引用捕获的变量是否可以修改依赖于此引用指向的是一个const类型还是一个非const类型。
+
+	//指定lambda返回类型
+	//vector<int> vi = { -1,2,-3,4,-5,6,-7,8,-9,8 };
+	//transform(vi.begin(), vi.end(), vi.begin(), [](int i) {return i < 0 ? -i : i; });
+	//printitem(vi);
+
+	//lambda定义返回类型时，必须使用尾置返回类型
+	//vector<int> vi = { -1,2,-3,4,-5,6,-7,8,-9,8 };
+	//transform(vi.begin(), vi.end(), vi.begin(), [](int i) -> int { if (i < 0)return  -i; else return i; });
+	//printitem(vi);
+
+
+	//ex10.20
+	//ifstream input("Text10.2.txt");
+	//string word;
+	//vector<string> words;
+	//while (input >> word)
+	//{
+	//	words.push_back(word);
+	//}
+	//cout << "original:\t"; printitem(words); 
+	//biggies3(words, 5);
+	
+	
+	
+	//ex10.21
+	//int num = 10;
+	//auto f = [&num]()->bool { if (num == 0) return true; else { num--; return false; }};
+	//for (int i = 0; i < 13; i++)
+	//{
+	//	cout << f() << "  " << num << endl;
+	//}
+
+}
+
+
+
 
 int main()
 {
 	//10.3.1 向算法传递函数
 	//Fun_Passing_a_Function_to_an_Algorithm();
 	//10.3.2 Lambda表达式
-	Fun_Lambda_Expressions();
+	//Fun_Lambda_Expressions();
+	//10.3.3 lambda捕获和返回
+	//Fun_Lambda_Captures_and_Returns();
 	return 0;
 }
