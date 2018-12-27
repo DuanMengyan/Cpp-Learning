@@ -7,7 +7,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年12月17日 星期一
-> Last edited time: 2018年12月25日 星期二
+> Last edited time: 2018年12月27日 星期四
 > Topic:C++Primer Chapter10.3 定制操作
 ************************************************************************/
 
@@ -15,6 +15,7 @@
 #include "Sales_data.h"
 
 using namespace std;
+using std::placeholders::_1;		//引用占位符
 
 //10.3 定制操作
 template<typename Container>
@@ -371,6 +372,31 @@ void Fun_Lambda_Captures_and_Returns()
 
 
 
+bool check_size(const string &s,string::size_type sz)
+{
+	return s.size() >= sz;
+}
+
+//10.3.4 参数绑定
+void Fun_Binding_Arguments()
+{
+	//find_if调用的lambda比较一个string和一个给定大小，check_size可以完成同样的工作
+	//find_if接受一个一元谓词，因此想要用check_size函数代替lambda，需要解决如何向sz形参传一个参数的问题
+
+	//标准库bind函数，定义在头文件functional中,接受一个可调用对象，生成一个新的可调用对象来“适应”元对象的参数列表
+	//_n是“占位符”，表示新生成的可调用对象中参数的位置
+
+	//绑定check_size的是在参数
+
+
+	auto check6 = bind(check_size, _1, 4);		//引用占位符
+	string s = "hello";
+	auto result = check6(s);
+	cout << std::boolalpha << result << endl;
+
+
+}
+
 
 int main()
 {
@@ -380,5 +406,7 @@ int main()
 	//Fun_Lambda_Expressions();
 	//10.3.3 lambda捕获和返回
 	//Fun_Lambda_Captures_and_Returns();
+	//10.3.4 参数绑定
+	Fun_Binding_Arguments();
 	return 0;
 }

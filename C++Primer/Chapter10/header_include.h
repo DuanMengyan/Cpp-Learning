@@ -22,5 +22,6 @@
 #include <ctime>
 #include <algorithm>
 #include <numeric>
+#include <functional>
 
 #endif //HEADER_INCLUDE_H
