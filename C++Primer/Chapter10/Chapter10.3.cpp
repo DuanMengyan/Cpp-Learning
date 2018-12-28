@@ -15,7 +15,7 @@
 #include "Sales_data.h"
 
 using namespace std;
-using std::placeholders::_1;		//引用占位符
+using namespace std::placeholders;		//引用占位符
 
 //10.3 定制操作
 template<typename Container>
@@ -142,6 +142,11 @@ string make_plural(size_t ctr, const string &word, const string &ending)
 	return (ctr > 1) ? word + ending : word;
 }
 
+bool check_size(const string &s, string::size_type sz)
+{
+	return s.size() >= sz;
+}
+
 void biggies(vector<string> &words, vector<string>::size_type sz)
 {
 	MyelimDups(words);	//将words按字典序排序，删除重复单词
@@ -151,9 +156,12 @@ void biggies(vector<string> &words, vector<string>::size_type sz)
 	cout << "stable_sorted:\t"; printitem(words);
 	//定义一个lambda
 	auto f = [sz](const string &str) {return str.size() >= sz; };
+	
+	//auto f = bind(check_size, _1, sz);								//ex10.25
 	//获取一个迭代器，指向第一个满足size()>=sz的元素
 	auto wc = find_if(words.begin(), words.end(), f);
-	//auto wc = stable_partition(words.begin(), words.end(), f);
+	
+	//auto wc = stable_partition(words.begin(), words.end(), f);		//ex10.18
 	//计算满足size()>=sz的元素数目
 	auto count = words.end() - wc;
 	cout << count << " " << make_plural(count, "word", "s")
@@ -372,10 +380,34 @@ void Fun_Lambda_Captures_and_Returns()
 
 
 
-bool check_size(const string &s,string::size_type sz)
+//bool check_size(const string &s,string::size_type sz)
+//{
+//	return s.size() >= sz;
+//}
+
+ostream &myprint(ostream &os, const string &s, char c)
 {
-	return s.size() >= sz;
+	return os << s << c;
 }
+
+//ex10.22
+void biggies4(vector<string> &words,vector<string>::size_type sz)
+{
+	MyelimDups(words);
+	stable_sort(words.begin(), words.end(), isShorter);
+	cout << "stable_sorts: ";  printitem(words);
+	//auto f = bind(check_size, _1, sz);
+	auto num = count_if(words.begin(), words.end(), bind(check_size, _1, sz));
+	cout << num << " " << make_plural(num, "word", "s")
+		<< " of length " << sz << " or longer " << endl;
+	cout << "=============================" << endl;
+}
+//ex10.23
+bool check_size2(const string &s, size_t sz)
+{
+	return s.size() < sz;
+}
+
 
 //10.3.4 参数绑定
 void Fun_Binding_Arguments()
@@ -389,24 +421,79 @@ void Fun_Binding_Arguments()
 	//绑定check_size的是在参数
 
 
-	auto check6 = bind(check_size, _1, 4);		//引用占位符
-	string s = "hello";
-	auto result = check6(s);
-	cout << std::boolalpha << result << endl;
+	//auto check6 = bind(check_size, _1, 4);		//引用占位符
+	//string s = "hello";
+	//auto result = check6(s);
+	//cout << std::boolalpha << result << endl;
+
+	//用bind重排参数顺序，可以用bind颠倒函数含义
+	//ifstream input("Text10.2.txt");
+	//string word;
+	//vector<string> words;
+	//while (input >> word)
+	//{
+	//	words.push_back(word);
+	//}
+	////cout << "original: "; printitem(words); 
+	////sort(words.begin(), words.end(), isShorter);
+	////cout << "sorted  : "; printitem(words);
+	////auto f = bind(isShorter, _2, _1);			//可以用bind颠倒isShorter()函数含义
+	////sort(words.begin(), words.end(), f);	
+	////cout << "binded  : "; printitem(words);
+
+	////绑定引用参数  
+	////ref返回一个对象，包含给定的引用，此对象可以拷贝
+	////cref生成一个保存const引用的类，两个函数都定义在头文件functional中
+	//for_each(words.begin(), words.end(), bind(myprint, ref(cout), _1, ' '));
+	//cout << endl;
+
+	//ex10.22
+	//ifstream input("Text10.2.txt");
+	//string word;
+	//vector<string> words;
+	//while (input >> word)
+	//{
+	//	words.push_back(word);
+	//}
+	//cout << "original: "; printitem(words); 
+	////biggies3(words, 5);
+	////cout << "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH" << endl;
+	//biggies4(words, 5);
+	
+	//ex10.23
+	//假设绑定的函数有n个参数，那么bind接受n+1个参数
+	
+	//ex10.24
+	//vector<int> vec = { 0,1,2,3,4,5,6 };
+	//string str = "hello";
+	//auto f = bind(check_size2, str, _1);
+	//auto pos = find_if(vec.begin(), vec.end(), f);
+	//cout << pos - vec.begin() + 1 << endl;
 
 
+	//ex10.25
+	
+	//ifstream input("Text10.2.txt");
+	//string word;
+	//vector<string> words;
+	//while (input >> word)
+	//{
+	//	words.push_back(word);
+	//}
+	//cout << "original: "; printitem(words); 
+	//biggies(words, 5);
 }
 
 
-int main()
-{
-	//10.3.1 向算法传递函数
-	//Fun_Passing_a_Function_to_an_Algorithm();
-	//10.3.2 Lambda表达式
-	//Fun_Lambda_Expressions();
-	//10.3.3 lambda捕获和返回
-	//Fun_Lambda_Captures_and_Returns();
-	//10.3.4 参数绑定
-	Fun_Binding_Arguments();
-	return 0;
-}
+//int main()
+//{
+//	//10.3.1 向算法传递函数
+//	//Fun_Passing_a_Function_to_an_Algorithm();
+//	//10.3.2 Lambda表达式
+//	//Fun_Lambda_Expressions();
+//	//10.3.3 lambda捕获和返回
+//	//Fun_Lambda_Captures_and_Returns();
+//	//10.3.4 参数绑定
+//	Fun_Binding_Arguments();
+//	return 0;
+//}
