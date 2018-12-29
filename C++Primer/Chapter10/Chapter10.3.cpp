@@ -13,20 +13,12 @@
 
 #include "header_include.h"
 #include "Sales_data.h"
+#include "fun.h"
 
 using namespace std;
 using namespace std::placeholders;		//引用占位符
 
 //10.3 定制操作
-template<typename Container>
-void printitem(Container const& con)
-{
-	for (auto const &item : con)
-	{
-		cout << item << "   ";
-	}
-	cout << endl << "=============================" << endl;;
-}
 
 inline bool 
 isShorter(const string &s1,const string &s2)
@@ -482,9 +474,11 @@ void Fun_Binding_Arguments()
 	//}
 	//cout << "original: "; printitem(words); 
 	//biggies(words, 5);
+
+
 }
 
-
+//
 //int main()
 //{
 //	//10.3.1 向算法传递函数
