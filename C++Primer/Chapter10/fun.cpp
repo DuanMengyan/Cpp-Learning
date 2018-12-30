@@ -56,3 +56,32 @@ istream &read(istream &is, Sales_data &item)
 	item.revenue = price * item.units_sold;
 	return is;
 }
+
+std::istream&
+operator >> (std::istream& in, Sales_data& s)
+{
+	double price;
+	in >> s.bookNo >> s.units_sold >> price;
+	// check that the inputs succeeded
+	if (in)
+		s.revenue = s.units_sold * price;
+	else
+		s = Sales_data();  // input failed: reset object to default state
+	return in;
+}
+//
+std::ostream&
+operator<<(std::ostream& out, const Sales_data& s)
+{
+	out << s.isbn() << " " << s.units_sold << " "
+		<< s.revenue << " " << s.avg_price();
+	return out;
+}
+
+Sales_data
+operator+(const Sales_data& lhs, const Sales_data& rhs)
+{
+	Sales_data ret(lhs);  // copy (|lhs|) into a local object that we'll return
+	ret += rhs;           // add in the contents of (|rhs|) 
+	return ret;           // return (|ret|) by value
+}

@@ -30,6 +30,7 @@ struct Sales_data
 		read(is, *this);
 	}
 	
+	Sales_data& operator+=(const Sales_data&);
 	//Sales_data(string s, unsigned cnt, double price) :
 	//	bookNo(s), units_sold(cnt), revenue(cnt*price) 
 	//	{
@@ -58,6 +59,23 @@ struct Sales_data
 	unsigned units_sold = 0;	//销量
 	double revenue = 0.0;    //总收入
 };
+
+
+//Sales_data& Sales_data::operator+=(const Sales_data& rhs)
+//{
+//	units_sold += rhs.units_sold;
+//	revenue += rhs.revenue;
+//	return *this;
+//}
+//
+//Sales_data
+//operator+(const Sales_data& lhs, const Sales_data& rhs)
+//{
+//	Sales_data ret(lhs);  // copy (|lhs|) into a local object that we'll return
+//	ret += rhs;           // add in the contents of (|rhs|) 
+//	return ret;           // return (|ret|) by value
+//}
+
 
 
 

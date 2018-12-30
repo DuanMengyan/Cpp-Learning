@@ -47,3 +47,14 @@ Sales_data& Sales_data::combine(const Sales_data &rhs)
 	return *this;						//返回调用该函数的对象
 }
 
+
+
+
+// assumes that both objects refer to the same ISBN
+Sales_data& Sales_data::operator+=(const Sales_data& rhs)
+{
+	units_sold += rhs.units_sold;
+	revenue += rhs.revenue;
+	return *this;
+}
+
