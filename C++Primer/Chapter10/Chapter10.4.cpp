@@ -7,7 +7,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2018年12月28日 星期五
-> Last edited time: 2018年12月29日 星期六
+> Last edited time: 2019年1月1日 星期二
 > Topic:C++Primer Chapter10.4 再探迭代器
 ************************************************************************/
 
@@ -91,8 +91,6 @@ void NumFilter(const string &input_file, const string &odd_file, const string &e
 		(((*iter_input) % 2 == 1) ? *iter_odd : *iter_even) = *iter_input++;
 	}
 }
-
-
 
 //ex10.4.2 iostream迭代器
 void Fun_iostream_Iterators()
@@ -237,14 +235,70 @@ void Fun_iostream_Iterators()
 
 	//ex10.33
 	
-	NumFilter("Text10.4.txt","Text10.4.2.txt","Text10.4.3.txt");
+	//NumFilter("Text10.4.txt","Text10.4.2.txt","Text10.4.3.txt");
 
 
 }
 
 
 
-//ex10.4.3
+//ex10.4.3 反向迭代器
+void Fun_Reverse_Iterators()
+{
+	//除了forward_list之外，其他容器都支持反向迭代器
+	//crbegin指向最后一个元素，crend指向第一个元素之前的位置
+	//逆序输出
+	//vector<int> vec = { 0,1,2,3,4,5,6,7,8,9 };
+	////for (auto r_iter = vec.crbegin(); r_iter != vec.crend(); ++r_iter)
+	////	cout << *r_iter << endl;
+	//sort(vec.begin(), vec.end());
+	//printitem(vec);	//正序排序
+	//sort(vec.rbegin(), vec.rend());
+	//printitem(vec);	//倒序排序
+
+	//反向迭代器需要递减运算符
+	//流迭代器不支持递减运算，因此不可能从forward_list或流迭代器创建反向迭代器
+
+	//反向迭代器和其他迭代器间的关系
+	//string line = "the,quick,red,fox,jumps,over,the,slow,red,turtle";
+	////返回一个反向迭代器
+	//auto rcomma = find(line.crbegin(), line.crend(), ',');
+	//cout << string(line.crbegin(), rcomma) << endl;
+	////base()成员函数可以将反向迭代器转换成普通迭代器
+	//cout << string(rcomma.base(), line.cend()) << endl;
+	////两个迭代器指向不同的元素，从而保证正向处理和反向处理结果相同
+	//cout << *rcomma << "       " << *rcomma.base() << endl;
+	
+	//ex10.34
+	//vector<int> vec = { 0,1,2,3,4,5,6,7,8,9 };
+	//for (auto cur = vec.crbegin(); cur != vec.crend(); ++cur)
+	//{
+	//	cout << *cur << "  ";
+	//}
+	//cout << endl;
+
+	//ex10.35
+	//vector<int> vec = { 0,1,2,3,4,5,6,7,8,9 };
+	//for (auto cur = prev(vec.cend()); true; cur--)
+	//{
+	//	cout << *cur << "  ";
+	//	if (cur == vec.cbegin())break;
+	//}
+	//cout << endl;
+
+	//ex10.36
+	//list<int> lst = { 0,1,2,3,4,5,6,0,8,9 };
+	//auto riter = find(lst.crbegin(), lst.crend(), 0);
+	//cout << distance( riter,lst.crend()) << endl;
+
+	//ex10.37
+	//vector<int> vec = { 0,1,2,3,4,5,6,7,8,9 };
+	//list<int>  lst(5);
+	//copy(vec.cbegin()+2, vec.cbegin()+7, lst.rbegin());
+	//printitem(lst);
+
+
+}
 
 
 
@@ -255,10 +309,10 @@ int main()
 	//ex10.4.1 插入迭代器
 	//Fun_Insert_Iterators();
 	//ex10.4.2 iostream迭代器
-	Fun_iostream_Iterators();
+	//Fun_iostream_Iterators();
+	//ex10.4.3 反向迭代器
+	Fun_Reverse_Iterators();
 	//return 0;
-
-
 }
 
 
