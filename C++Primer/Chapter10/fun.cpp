@@ -26,6 +26,15 @@ void printitem(list<int> const& con)
 	cout << endl << "=============================" << endl;
 }
 
+void printitem(list<string> const& con)
+{
+	for (auto const &item : con)
+	{
+		cout << item << "   ";
+	}
+	cout << endl << "=============================" << endl;
+}
+
 void printitem(vector<string> const& con)
 {
 	for (auto const &item : con)

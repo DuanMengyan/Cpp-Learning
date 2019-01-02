@@ -14,3 +14,4 @@ extern Sales_data operator+(const Sales_data& lhs, const Sales_data& rhs);
 extern void printitem(vector<int> const&);
 extern void printitem(vector<string> const&);
 extern void printitem(list<int> const&);
+extern void printitem(list<string> const&);
