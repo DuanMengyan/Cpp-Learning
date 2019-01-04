@@ -7,7 +7,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2019年1月3日 星期四
-> Last edited time: 2019年1月3日 星期四
+> Last edited time: 2019年1月4日 星期五
 > Topic:C++Primer Chapter11.2 关联容器概述
 ************************************************************************/
 
@@ -16,9 +16,6 @@
 #include "Sales_data.h"
 
 using namespace std;
-
-using Families = map<string, vector<string>>;
-
 
 
 //Chapter11.2 关联容器概述
@@ -117,12 +114,12 @@ void Fun_Requirements_on_Key_Type()
 	//map<string, list<size_t>> words_map;
 
 	//ex11.10
-	map<vector<int>::iterator, int> vec_map;
-	map<list<int>::iterator, int> lst_map;
+	//map<vector<int>::iterator, int> vec_map;
+	//map<list<int>::iterator, int> lst_map;
 
-	//vector可以，list不行，list<int>::iterator是双向迭代器，没有定义<比较运算符
-	vector<int> vi;
-	vec_map.insert(pair<vector<int>::iterator, int>(vi.begin(), 0));
+	////vector可以，list不行，list<int>::iterator是双向迭代器，没有定义<比较运算符
+	//vector<int> vi;
+	//vec_map.insert(pair<vector<int>::iterator, int>(vi.begin(), 0));
 
 
 	//ex11.11
@@ -131,9 +128,109 @@ void Fun_Requirements_on_Key_Type()
 	//multiset<Sales_data, com>bookstore(compareIsbn);
 }
 
+pair<string, int> proceess(vector<string> &v)
+{
+	if (!v.empty())
+		return{ v.back(),v.back().size() };		//列表初始化
+		//return make_pair(v.back(), v.back().size());
+		//return pair<string, int>(v.back(), v.back().size());
+	else
+		return pair<string, int>();				//隐式构造返回值
+}
+
+//ex11.14
+class MyFamilies
+{
+public:
+	
+	MyFamilies() {};
+	
+	using person   = pair<string, string>;
+	using people   = vector<person>;
+	using Families = map<string, people>;
+
+	void add(string const &last_name, string const &first_name, string const &birth)
+	{
+		auto temp_person = person(first_name, birth);
+		families[last_name].push_back(temp_person);
+	}
+
+	void print()const&
+	{
+		for (auto family : families)
+		{
+			cout << "Family—— "<<family.first << " : " << endl;
+			for (auto person : family.second)
+			{
+				cout << person.first << "  " << person.second << endl;
+			}
+			cout << "==============" << endl;
+		}
+	}
+private:
+	Families families;
+};
 
 //11.2.3 pair类型
+void Fun_The_pair_Type()
+{
+	//pair定义在头文件utility中
+	//pair的数据成员是public的
+	//auto item = make_pair(1, "hello");		//item的类型是<int,string>
 
+	//创建pair对象的函数
+
+
+	//ex11.12
+	//vector<pair<string, int>> p_vec;
+	//string str; int i;
+	//while (cin >> str && cin >> i)
+	//{
+	//	pair<string, int>temp(str, i);
+	//	//pair<string, int>temp = { str,i };
+	//	//auto temp = make_pair(str, i);
+	//	p_vec.push_back(temp);
+	//}
+
+	//cout << "=================================" << endl;
+	//
+	//for (auto item : p_vec)
+	//{
+	//	cout << item.first << "  " << item.second << endl;
+	//}
+
+
+
+	//ex11.13
+	//如上
+
+
+	//ex11.14
+	//map<string, vector<pair<string,string>>> name_map;	
+	//
+	//for(string first_name; cout << "Last name:" << endl,cin >> first_name;)
+	//{		
+	//	for (string name,birth; cout << "First name:" << endl,cin >> name >> birth && name != "end";)
+	//	{
+	//		auto temp = make_pair(name, birth);
+	//		name_map[first_name].push_back(temp);
+	//	}
+	//}
+	//
+	//for (auto w : name_map)
+	//{
+	//	for (auto item : w.second)
+	//	{
+	//		cout << w.first << "  " << item.first << " " << item.second << endl;
+	//	}
+	//	cout << endl << "========================" << endl;
+	//}
+
+	MyFamilies families;
+	auto msg = "Please enter last name, first name and birthday of every person:\n";
+	for (string l, f, b; cout << msg, cin >> l >> f >> b; families.add(l, f, b));
+	families.print();
+}
 
 
 
@@ -142,7 +239,9 @@ int main()
 	//11.1 定义关联容器
 	//Fun_Defining_an_Associative_Container();
 	//11.2.2 关键字类型的要求
-	Fun_Requirements_on_Key_Type();
+	//Fun_Requirements_on_Key_Type();
+	//11.2.3 pair类型
+	Fun_The_pair_Type();
 	return 0;
 }
 
