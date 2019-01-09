@@ -173,38 +173,163 @@ void Fun_Adding_Elements()
 	//返回类型：pair<map<string, vector<int>>::iterator, bool>;
 
 	//ex11.23
-	multimap<string, string> family_map;	
-	
-	for(string first_name; cout << "Last name:" << endl,cin >> first_name;)
-	{		
-		for (string name; cout << "First name:" << endl,cin >> name&&name != "end";)
-		{
-			family_map.insert({first_name,name});
-		}
-
-	}
-	for (auto w : family_map)
-	{
-		cout << w.first << " " << w.second << endl;
-	}
+	//multimap<string, string> family_map;	
+	//
+	//for(string first_name; cout << "Last name:" << endl,cin >> first_name;)
+	//{		
+	//	for (string name; cout << "First name:" << endl,cin >> name&&name != "end";)
+	//	{
+	//		family_map.insert({first_name,name});
+	//	}
+	//}
+	//for (auto w : family_map)
+	//{
+	//	cout << w.first << " " << w.second << endl;
+	//}
 }
 
+//11.3.3 删除元素
+void Fun_Erasing_Elements()
+{
+	//通过给erase传递一个迭代器或一个迭代器对来删除一个元素或者一个元素范围
+	//额外的erase操作接受一个key_type参数，此版本删除所有匹配给定关键字的元素，返回实际删除的元素的数量
+}
 
+//11.3.4 map的下标操作
+void Fun_Subscripting_a_map()
+{
+	//不能对multi进行下标操作，因为这些容器中有多个值与一个关键字相关联
+	//如果关键字不在map中，则会为它创建一个元素插入到map中。
+	//只能对非const的map使用下标
+	//map<string, size_t> word_count;
+	//word_count["Anna"] = 1;
 
+	//使用下标操作的返回值
+	//cout << word_count["Anna"] << endl;
+	//++word_count["Anna"];
+	//cout << word_count["Anna"] << endl;
 
-//11.3.3
+	//ex11.24
+	//在m中搜索关键字为0的元素；
+	//没有找到，则向m中添加一个关键字为0的元素；
+	//给该元素复制为1
 
-//11.3.4
+	//ex11.25
+	//vector<int> v;
+	//v[0] = 1;
+	//语法没有错误，但是v是个空vector，下标越界
 
-//11.3.5
+	//ex11.26
+	//map<int, string> m = { {1,"AAA"},{2,"BBB"} };
+	//using KeyType = map<int, string>::key_type;
+	//cout << " sunbscript :" << typeid(KeyType).name() << endl;		//const int
+	//cout << "return" << typeid(decltype(m[1])).name() << endl;		//string
+}
 
-//11.3.6
+//11.3.5 访问元素
+void Fun_Accessing_Elements()
+{
+	set<int> iset = { 1,2,3,4,5,6,7,8,9 };
+	//auto it = iset.find(1);
+	//auto it = iset.find(11);
+	//if (it != iset.end()) cout << *it << endl;
+	//else cout << "not find" << endl;
 
+	//cout << iset.count(1) << endl;
+	//cout << iset.count(11) << endl;
+	
+	//对map使用find来代替下标操作
+	//如果只想检测一个给定关键字是否在map中，而不想改变map，应该是find
 
+	//在multimap或multiset中查找元素
+	//一种不同的，面向迭代器的解决方法
+	//如果lower_bound和upper_bound返回相同的迭代器，则给定关键字不在容器中
+	//multimap<string, string> authors = { { "AAA","BOOK1" } ,{ "CCC","Book2" } ,{ "BBB","C++" },{ "GGG","HAHAHA" },{ "BBB","book1" },{ "CCC","hello" } };
+	//for (auto beg = authors.lower_bound("GGG"), end = authors.upper_bound("GGG"); beg != end; ++beg) 
+	//{
+	//	cout << beg->first << "    " << beg->second << endl;
+	//}
+	
+	//equal_range函数
+	//multimap<string, string> authors = { { "AAA","BOOK1" } ,{ "CCC","Book2" } ,{ "BBB","C++" },{ "GGG","HAHAHA" },{ "BBB","book1" },{ "CCC","hello" } };
+	//for (auto pos = authors.equal_range("BBB");pos.first!=pos.second;++pos.first)
+	//{
+	//	cout << pos.first->first << "    " << pos.first->second << endl;
+	//}
 
+	//ex11.27
+	//对于需要统计关键字出现次数的地方，使用count
+	//对于只需要检查关键字是否在关联容器中的地方，则使用find
+	
+	//ex11.28
+	//map<string, vector<int>>::iterator it;
+	
+	//ex11.29
+	//upper_bound()返回一个迭代器，指向不影响原来元素排序的关键字插入位置
+	
+	//ex11.30
+	//第一个与搜索元素匹配的元素的值
 
+	//ex11.31-11.32
+	//multimap<string, string> authors = { { "AAA","BOOK1" } ,{ "CCC","Book2" } ,{ "BBB","C++" },{ "GGG","HAHAHA" },{ "BBB","book1" },{ "EEE","hello" } };
+	//auto it = authors.find("BBB");
+	//while (it != authors.end())
+	//{
+	//	authors.erase(it);
+	//	it = authors.find("BBB");
+	//}
+	//for (auto item : authors)
+	//{
+	//	cout << item.first << "       " << item.second << endl;
+	//}
 
+	//ex11.32
+}
 
+//11.3.6 一个单词转换的map
+void Fun_A_Word_Transformation_Map()
+{
+
+	ifstream map_file("map_file.txt");
+	ifstream input("input_text11.3.6.txt");
+	string str_line;
+	//建立转换字典
+	map<string, string> trans_map;
+	while (getline(map_file, str_line))
+	{
+		auto  space = str_line.find_first_of(' ');
+		string str1(str_line,0,space);
+		string str2(str_line, space + 1);
+		//cout <<"-" <<str1 << "-" << "  " << "-" << str2 << "-" << endl;;
+		trans_map[str1] = str2;
+	}
+	//转换输入文本
+	while (getline(input, str_line))
+	{
+		//从读取的行中依次处理每个词
+		while (!str_line.empty())
+		{
+			auto space = str_line.find_first_of(' ');
+			string str_temp;
+			if (space!= string::npos)
+			{
+				str_temp.assign(str_line, 0, space);
+				str_line.erase(0, space + 1);
+			}
+			else
+			{
+				str_temp = str_line;
+				str_line.clear();
+			}			
+			auto it = trans_map.find(str_temp);
+			if (it != trans_map.end())
+				cout << it->second << " ";
+			else cout << str_temp << " ";			
+		}
+		cout << endl;
+	}
+
+}
 
 
 
@@ -213,6 +338,14 @@ int main()
 	//11.3.1 关联容器迭代器
 	//Fun_Associative_Container_Iterators();
 	//11.3.2 添加元素
-	Fun_Adding_Elements();
+	//Fun_Adding_Elements();
+	//11.3.3 删除元素
+	//Fun_Erasing_Elements();
+	//11.3.4 map的下标操作
+	//Fun_Subscripting_a_map();
+	//11.3.5 访问元素
+	//Fun_Accessing_Elements();
+	//11.3.6 一个单词转换的map
+	Fun_A_Word_Transformation_Map();
 	return 0;
 }

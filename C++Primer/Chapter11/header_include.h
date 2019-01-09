@@ -29,6 +29,7 @@
 #include <set>
 #include <unordered_set>
 #include <utility>
+#include <typeinfo>
 
 
 #endif //HEADER_INCLUDE_H
