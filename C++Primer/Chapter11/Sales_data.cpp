@@ -48,7 +48,10 @@ Sales_data& Sales_data::combine(const Sales_data &rhs)
 }
 
 
-
+bool Sales_data::operator==(const Sales_data &lhs)
+{
+	return lhs.isbn()==isbn();
+}
 
 // assumes that both objects refer to the same ISBN
 Sales_data& Sales_data::operator+=(const Sales_data& rhs)
@@ -57,4 +60,5 @@ Sales_data& Sales_data::operator+=(const Sales_data& rhs)
 	revenue += rhs.revenue;
 	return *this;
 }
+
 

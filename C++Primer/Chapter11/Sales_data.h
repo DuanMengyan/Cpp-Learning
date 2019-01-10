@@ -29,7 +29,7 @@ struct Sales_data
 	{
 		read(is, *this);
 	}
-	
+	bool operator==(const Sales_data &);
 	Sales_data& operator+=(const Sales_data&);
 	//Sales_data(string s, unsigned cnt, double price) :
 	//	bookNo(s), units_sold(cnt), revenue(cnt*price) 
