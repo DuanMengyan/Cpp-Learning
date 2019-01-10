@@ -290,44 +290,88 @@ void Fun_Accessing_Elements()
 void Fun_A_Word_Transformation_Map()
 {
 
-	ifstream map_file("map_file.txt");
-	ifstream input("input_text11.3.6.txt");
-	string str_line;
-	//建立转换字典
-	map<string, string> trans_map;
-	while (getline(map_file, str_line))
-	{
-		auto  space = str_line.find_first_of(' ');
-		string str1(str_line,0,space);
-		string str2(str_line, space + 1);
-		//cout <<"-" <<str1 << "-" << "  " << "-" << str2 << "-" << endl;;
-		trans_map[str1] = str2;
-	}
-	//转换输入文本
-	while (getline(input, str_line))
-	{
-		//从读取的行中依次处理每个词
-		while (!str_line.empty())
-		{
-			auto space = str_line.find_first_of(' ');
-			string str_temp;
-			if (space!= string::npos)
-			{
-				str_temp.assign(str_line, 0, space);
-				str_line.erase(0, space + 1);
-			}
-			else
-			{
-				str_temp = str_line;
-				str_line.clear();
-			}			
-			auto it = trans_map.find(str_temp);
-			if (it != trans_map.end())
-				cout << it->second << " ";
-			else cout << str_temp << " ";			
-		}
-		cout << endl;
-	}
+	//ifstream map_file("map_file.txt");
+	//ifstream input("input_text11.3.6.txt");
+	//string str_line;
+	////建立转换字典
+	//map<string, string> trans_map;
+	//string key;		//要转换的单词
+	//string value;	//替换后的内容
+
+	//while (map_file >> key && getline(map_file,value))
+	//{
+	//	if (value.size() > 1)
+	//	{
+	//		trans_map[key] = value.substr(1);		//跳过前导空格
+	//		cout << value.substr(1) << endl;
+	//	}
+	//	else
+	//		cout << ("no rule for" + key) << endl;
+	//}
+
+	////建立转换字典
+	////while (getline(map_file, str_line))
+	////{
+	////	auto  space = str_line.find_first_of(' ');
+	////	string key(str_line,0,space);
+	////	string value(str_line, space + 1);
+	////	trans_map[key] = value;
+	////}
+
+
+	////转换输入文本
+	//while (getline(input, str_line))
+	//{
+	//	istringstream stream(str_line);
+	//	string word;
+	//	while (stream>>word)
+	//	{
+	//		auto it = trans_map.find(word);
+	//		if (it != trans_map.end())
+	//			cout << it->second << " ";
+	//		else
+	//			cout << word << " ";			
+	//	}
+	//	cout << endl;
+
+	//	////从读取的行中依次处理每个词
+	//	//while (!str_line.empty())
+	//	//{
+	//	//	auto space = str_line.find_first_of(' ');
+	//	//	string str_temp;
+	//	//	if (space!= string::npos)
+	//	//	{
+	//	//		str_temp.assign(str_line, 0, space);
+	//	//		str_line.erase(0, space + 1);
+	//	//	}
+	//	//	else
+	//	//	{
+	//	//		str_temp = str_line;
+	//	//		str_line.clear();
+	//	//	}			
+	//	//	
+	//	//	auto it = trans_map.find(str_temp);
+	//	//	if (it != trans_map.end())
+	//	//		cout << it->second << " ";
+	//	//	else cout << str_temp << " ";			
+	//	//}
+	//	//cout << endl;
+	//}
+
+	//ex11.33
+	//以上
+	
+	//ex11.34
+	//修改后的代码将无法编译，因为下标运算符可能会插入一个元素（当找不到具有键s的元素时）
+	//并且我们只能仅在不是const的关键字-值对上使用下标。
+	
+	//ex11.35
+	//如果一个单词出现多次：
+	//下标会将最后一次对应的短语插入到map中
+	//使用insert会将第一次的对应短语插入到map中。
+
+	//ex11.36
+	//如果是这样，键值对将是{key，“”}（“”。size（）！> 1），无法将其添加到map中。 因此，密钥不会被任何字符串替换。
 
 }
 
