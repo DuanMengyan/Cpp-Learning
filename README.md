@@ -2,7 +2,8 @@
 
 C++学习笔记
 
-1.SaoDiSeng视频：传智扫地僧教学视频学习笔记；
+1.C++Primer：C++Primer5th书籍学习笔记；
 
-2.C++Primer：C++Prinmer5th书籍学习笔记；
+#### 2019.1.10更新：
+C++Primer5th学习笔记已更新至Chapter11
 
