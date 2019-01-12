@@ -14,6 +14,7 @@
 #include "fun.h"
 #include "header_include.h"
 #include "Sales_data.h"
+#include "StrBlob.h"
 
 using namespace std;
 
@@ -89,13 +90,33 @@ void Fun_The_shared_ptr_Class()
 	//	vector<string> v2 = { "a","an","the" };
 	//	v1 = v2;
 	//}
-	//printitem(v1);
 	
 	//使用动态内存的一个常见原因是允许多个对象共享相同的状态
 	
 	//定义StrBlob类
 	//元素访问成员函数
 	//StrBlob的拷贝、赋值和销毁
+
+	//ex12.
+	//StrBlob b1;
+	//{
+	//	StrBlob b2 = { "a","an","the" };
+	//	b1 = b2;
+	//	b2.push_back("about");
+	//}
+	//cout << b1.size() << endl;  //4，b2不存在了
+
+	//ex12.2
+	//略
+
+	//ex12.3
+	//可以，但是没有必要。StrBlob只是一个指针，因为push_back和pop_back并不修改数据，它们修改数据指向的vector<string>;
+
+	//ex12.4
+	//因为i是vector<string>::size_type类型，是unsigned，当i小于0时，会自动转换成大于0的数	
+
+	//ex12.5
+
 
 
 }
