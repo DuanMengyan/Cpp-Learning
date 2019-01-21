@@ -7,7 +7,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2019年1月10日 星期四
-> Last edited time: 2019年1月12日 星期六
+> Last edited time: 2019年1月21日 星期一
 > Topic:C++Primer Chapter12.1 动态内存与智能指针
 ************************************************************************/
 
@@ -32,7 +32,6 @@ shared_ptr<int> factory2(int i)
 	shared_ptr<int> p = factory(i);
 	return p;
 }//p离开了作用于，但它指向的内存不会被释放掉
-
 
 //12.1.1 shared_ptr类
 void Fun_The_shared_ptr_Class()
@@ -116,17 +115,140 @@ void Fun_The_shared_ptr_Class()
 	//因为i是vector<string>::size_type类型，是unsigned，当i小于0时，会自动转换成大于0的数	
 
 	//ex12.5
+	//StrBlob item2 = { "C++","hello","primer","python" };
+	//构造函数只能直接初始化，不能使用上面拷贝形式的初始化过程
+}
 
+
+//ex12.6
+vector<int> *fun1()
+{
+	vector<int> *p_vec = new vector<int>;
+	return p_vec;
+}
+
+vector<int> fun2(vector<int>*p_vec)
+{
+	int num;
+	ifstream input("Text1.txt");
+	while (input >> num)
+	{
+		p_vec->push_back(num);
+	}
+	return *p_vec;
+}
+
+void fun_print(vector<int> vec)
+{
+	printitem(vec);
+}
+
+//ex12.7
+using Sptr = shared_ptr<vector<int>>;
+
+Sptr fun3()
+{
+	Sptr p_vec = make_shared<vector<int>>() ;
+	return p_vec;
+}
+
+Sptr fun4(Sptr p_vec)
+{
+	int num;
+	ifstream input("Text1.txt");
+	while (input >> num)
+	{
+		p_vec->push_back(num);
+	}
+	return p_vec;
+}
+
+void fun_print2(Sptr p_vec)
+{
+	printitem(*p_vec);
+}
+
+
+
+//12.1.2 直接管理内存
+void Fun_Managing_Memory_Directly()
+{
+	//运算符new分配内存，delete释放new分配的内存
+	//使用new动态分配和初始化对象。
+	//自由空间分配的内存是无名的，new返回一个指向该对象的指针。
+	
+	//int *pi = new int;						//*pi未定义
+	//string *ps = new string(10, '9');		//值初始化
+	//值初始化的内置类型对象有着良好定义的值，而默认初始化的对象的值则是未定义的
+	//类中依赖于编译器合成的默认构造函数的内置类型成员，如果它们未在类内被初始化，那么他们的值也是未定义的。
+	//当括号中仅有单一初始化器时才可以使用auto
+
+	//动态分配const对象
+	//一个动态分配的const对象必须进行初始化
+	//const int *pci = new const int(1024);
+	//cout << *pci << endl;
+	//const string *pcs = new const string("hello world!");
+	//cout << *pcs << endl;
+
+	//内存耗尽
+	//定位new表达式允许我们向new传递额外的参数。
+	//int *p2 = new (nothrow) int;			//如果内存分配失败，new返回一个空指针
+	
+	//释放动态内存
+	//我们通过delete表达式来将动态内存归还给系统。
+	//delete表达式接受一个指针，指针我们想要释放的对象。
+	//销毁对象，释放内存
+
+	//指针值和delete
+	//传递给delete的指针必须指向动态分配的内存，或者是一个空指针。
+	//释放一块非new分配的内存，或者将相同的指针值释放多次，其行为是未定义的。
+	//int i, *pi1 = &i, *pi2 = nullptr;
+	//double *pd = new double(33), *pd2 = pd;
+	//cout << *pd2 << endl;	
+	//delete pd;
+	//cout << *pd2 << endl;  //异常值(不是33)
+
+	//动态对象的生存期直到被释放时为止
+	//由内置指针(而不是智能指针)管理的动态内存在被显示释放前一直都会存在
+	
+	//动态内存的管理非常容易出错：因此要坚持使用智能指针。
+	//1.忘记delete内存；
+	//2.使用已经释放掉的对象；
+	//3.同一块内存释放两次
+
+	//delete之后重置指针值
+	//可以在delete只有将nullptr赋予指针，表示指针不指向任何对象
+	//在实际系统中，查找指向相同内存的所有指针是异常困难的
+
+	//ex12.6
+	//vector<int> *temp_vec = fun1();
+	//fun_print(fun2(temp_vec));
+	//delete temp_vec;
+
+	//ex12.7
+	//Sptr temp_vec = fun3();
+	//fun_print2(fun4(temp_vec));
+	
+	//ex12.8
+	//p将转换为bool型，动态分配的内存将无法释放，最终会造成内存泄漏
+	
+	//ex12.9
+	//int *q = new int(42), *r = new int(100);
+	//r = q;		//内存泄漏r指向动态内存中的42，保存100的内存还未被释放，需要delete r，否则会造成内存泄漏;
+	//cout << *r << endl;		
+	//auto q2 = make_shared<int>(42), r2 = make_shared<int>(100);
+	//r2 = q2;	//安全，最后一个指向动态内存中100的智能指针r2指向42，保存100的内存被自动释放；
+	//cout << *r2 << endl;
 
 
 }
 
 
-
 int main()
 {
 	//12.1.1 shared_ptr类
-	Fun_The_shared_ptr_Class();
-
+	//Fun_The_shared_ptr_Class();
+	//12.1.2 直接管理内存
+	Fun_Managing_Memory_Directly();
 	return 0;
 }

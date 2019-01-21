@@ -32,5 +32,6 @@
 #include <typeinfo>
 //Chapter12 ¶¯Ì¬ÄÚ´æ
 #include <memory>
+#include <new>
 
 #endif //HEADER_INCLUDE_H
