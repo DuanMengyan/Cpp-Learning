@@ -16,6 +16,7 @@
 #include "Sales_data.h"
 #include "StrBlob.h"
 
+
 using namespace std;
 
 //Chapter12.1 动态内存与智能指针
@@ -120,6 +121,7 @@ void Fun_The_shared_ptr_Class()
 }
 
 
+
 //ex12.6
 vector<int> *fun1()
 {
@@ -167,8 +169,6 @@ void fun_print2(Sptr p_vec)
 {
 	printitem(*p_vec);
 }
-
-
 
 //12.1.2 直接管理内存
 void Fun_Managing_Memory_Directly()
@@ -243,12 +243,119 @@ void Fun_Managing_Memory_Directly()
 
 }
 
+void process(shared_ptr<int> ptr)
+{
+	cout << "=========" << endl;
+	cout << ptr.use_count() << endl;	//输出此时ptr的引用计数
+	cout << "process:" << *ptr << endl;
+	cout << "=========" << endl;
+}
+
+//12.1.3 shared_ptr和new结合使用
+void Fun_Using_shared_ptrs_with_new()
+{
+	//用new返回的指针来初始化智能指针
+	//接受指针参数的智能指针构造函数是explicit的，不能将一个内置指针隐式转换为一个智能指针，因此必须使用直接初始化
+	//一个返回shared_ptr的函数不能在其返回语句中隐式转换一个普通指针
+	//shared_ptr<int> p2(new int(42));	
+	//cout << *p2 << endl;
+	
+	//不要混合使用普通指针和智能指针
+	//当将一个shared_ptr绑定到一个普通指针时，我们就将内存的管理责任交给了这个shared_ptr。
+	//这样就不应该在使用内置指针来访问shared_ptr指向的内存了。
+	//shared_ptr<int> p(new int(42));
+	//cout << p.use_count() << endl;			//1
+	//process(p);
+	//cout << p.use_count() << endl;			//1
+	//int i = *p;			
+
+
+
+	//int *x(new int(1024));
+	////普通指针x显示转换为shared_ptr智能指针，传递给process，引用计数为1
+	////process结束，临时对象被销毁，引用计数变为0，所指向的保存了1024的动态内存被释放
+	////但是普通指针x仍然指向（已经被释放的）内存，变成一个空悬指针。
+	//process(shared_ptr<int>(x));
+	//int j = *x;				//使用x的值，行为未定义
+	//cout << j << endl;
+
+
+	//不要使用get初始化另一个智能指针或为智能指针赋值
+	
+	//shared_ptr<int> p(new int(42));
+	//cout << p.use_count() << endl;
+	//int *q = p.get();
+	//{
+	//	shared_ptr<int>(q);
+	//}
+	//cout << p.use_count() << endl;
+	//int foo = *p;				//未定义，p是一个空悬指针
+	//cout << foo << endl;
+
+	//其他shared_ptr操作
+	//用reset来讲一个新的指针赋予一个shared_ptr
+	//reset和uique一起使用，用来控制多个shared_ptr共享的对象
+	//shared_ptr<int> p(new int(42));
+	//auto p2 = p;
+	//cout << *p << "   " << p.use_count() << endl;			// 42   2
+	//cout << *p2 << "   " << p.use_count() << endl;			// 42   2    
+	//if (!p.unique())
+	//{
+	//	p.reset(new int(1024));			//p指向一个新的对象	
+	//}	
+	//cout << *p << "   " << p.use_count() << endl;			// 1024  1
+	//cout << *p2 << "   " << p.use_count() << endl;			// 42    1
+	
+	/*=============================================
+	理解变量的销毁与其内存的释放之间的关系：
+	内置类型的指针在离开作用域时，本身会被销毁，但是其指向的内存空间什么都不会发生，必须以显式的delete进行释放空间。
+	智能指针在离开作用域时，本身也会被销毁，并且计数器减一，当其计数器为0且只有一个智能指针指向该对象时，该对象的内存空间会被释放。
+	如若用智能指针的get()函数得到的一个内置指针来初始化一个临时的智能指针，
+	一旦该内置指针被释放，指向的内存也会被释放，原来的智能指针就会变成空指针
+	=============================================*/
+
+
+	//ex12.10
+	//shared_ptr<int> p(new int(42));
+	//process(shared_ptr<int>(p));
+	//cout << p.use_count() << endl;			//1
+
+
+	//ex12.11
+	//p变成一个空悬指针，主函数结束，会再一次释放内存，造成双重释放
+	//shared_ptr<int> p(new int(42));
+	//process(shared_ptr<int>(p.get()));
+	
+	//ex12.12
+	//auto p = new int();
+	//auto sp = make_shared<int>();		//默认初始化0
+	//process(sp);
+	//process(new int());				//参数必须是智能指针
+	//process(p);						//同上
+	//process(shared_ptr<int>(sp));
+	//cout << sp.use_count() << endl;
+
+
+	//ex12.13
+	auto sp = make_shared<int>();
+	auto p = sp.get();
+	delete p;					//默认初始化为0的动态内存被释放掉，sp变成一个空悬指针，报错
+	
+
+	//ex12.14
+}
+
+
 
 int main()
 {
 	//12.1.1 shared_ptr类
 	//Fun_The_shared_ptr_Class();
 	//12.1.2 直接管理内存
-	Fun_Managing_Memory_Directly();
+	//Fun_Managing_Memory_Directly();
+	//12.1.3 shared_ptr和new结合使用
+	Fun_Using_shared_ptrs_with_new();
+
+
 	return 0;
 }
