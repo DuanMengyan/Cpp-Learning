@@ -7,15 +7,16 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2019年1月10日 星期四
-> Last edited time: 2019年1月22日 星期二
+> Last edited time: 2019年1月24日 星期四
 > Topic:C++Primer Chapter12.1 动态内存与智能指针
 ************************************************************************/
 
 #include "fun.h"
 #include "header_include.h"
 #include "Sales_data.h"
-#include "StrBlob.h"
-
+//#include "StrBlob.h"
+//#include "StrBlobPtr.h"
+#include "ConstStrBlobPtr.h"
 
 using namespace std;
 
@@ -472,6 +473,57 @@ void Fun_unique_ptr()
 
 }
 
+
+//12.1.6 weak_ptr
+void Fun_weak_ptr()
+{
+	//weak_ptr指向一个有shared_ptr管理的对象，不会改变shared_ptr的引用计数，不控制所指对象生存期
+	
+	//weak_ptr<int> wp;
+	//shared_ptr<int> p(new int(421));
+	//wp = p;
+	//cout << wp.use_count() << endl;		//1
+	//auto p2 = wp.lock();
+	//cout << p2.use_count() << endl;		//2
+
+	////lock函数检查weak_ptr指向的对象是否仍然存在。
+	//if (shared_ptr<int> np = wp.lock())
+	//{
+	//	//如果np不为空则条件成立
+	//	//在此块中使用np访问共享对象是安全的。
+	//}
+
+	//核查指针类
+	//指针操作
+
+	//ex12.19
+	
+	//ex12.20
+	//ifstream input("Text2.txt");
+	//const StrBlob strblob;
+	//string word;
+
+	////strblob.print_strblob();
+	//for (ConstStrBlobPtr pbeg(strblob,0), pend(strblob.end()); pbeg != pend; pbeg.incr())
+	//{
+	//	cout << pbeg.deref() << endl;
+	//}
+
+	//ex12.21
+	//两行函数易读性更高
+
+	//ex12.22
+
+	////initializer_list<string> il = { "Hello","C++","primer" };
+	////const StrBlob strblob(il);
+
+	////for (ConstStrBlobPtr pbeg(strblob,0), pend(strblob.end()); pbeg != pend; pbeg.incr())
+	////{
+	////	cout << pbeg.deref() << endl;
+	////}
+
+}
+
 int main()
 {
 	//12.1.1 shared_ptr类
@@ -483,7 +535,9 @@ int main()
 	//12.1.4 智能指针和异常
 	//Fun_Smart_Pointers_and_Exceptions();
 	//12.1.5 unique_ptr
-	Fun_unique_ptr();
+	//Fun_unique_ptr();
+	//12.1.6 weak_ptr
+	Fun_weak_ptr();
 
 	return 0;
 }

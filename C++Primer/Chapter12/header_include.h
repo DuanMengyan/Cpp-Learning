@@ -33,5 +33,6 @@
 //Chapter12 ¶¯Ì¬ÄÚ´æ
 #include <memory>
 #include <new>
+#include <stdexcept>
 
 #endif //HEADER_INCLUDE_H

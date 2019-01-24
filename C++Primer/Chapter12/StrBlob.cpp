@@ -1,8 +1,23 @@
 #include "StrBlob.h"
+#include "StrBlobPtr.h"
+
+#include "fun.h"
+
+
 
 
 StrBlob::~StrBlob()
 {
+}
+
+StrBlobPtr StrBlob::begin()
+{
+	return StrBlobPtr(*this);
+}
+
+StrBlobPtr StrBlob::end()
+{
+	return StrBlobPtr(*this, data->size());
 }
 
 void StrBlob::pop_back()
@@ -34,6 +49,11 @@ const string & StrBlob::back() const
 {
 	check(0, "back on empty StrBlob");
 	return data->back();
+}
+
+void StrBlob::print_strblob()
+{
+	printitem(*data);
 }
 
 
