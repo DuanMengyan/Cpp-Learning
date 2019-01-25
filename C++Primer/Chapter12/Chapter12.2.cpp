@@ -3,13 +3,12 @@
 #pragma  warning (disable:4996) 
 
 
-
 /*************************************************************************
 > File Name: Chapter12.2.cpp
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2019年1月24日 星期四
-> Last edited time: 2019年1月24日 星期四
+> Last edited time: 2019年1月25日 星期五
 > Topic:C++Primer Chapter12.2 动态数组
 ************************************************************************/
 
@@ -43,8 +42,6 @@ void str_connection(string &str1, string &str2)
 	cout << str1 + str2;
 	cout << "================" << endl;
 }
-
-
 
 
 //12.3.1 new和数组
@@ -91,22 +88,16 @@ void Fun_new_and_Arrays()
 	//str_connection(str1, str2);
 
 	//ex12.24
-	
-	//string str;
-	//cin >> str;
-	//char *cp = new char[str.size()];
-	//strcat(cp, str);
-	//cout << cp << endl;
-
-	cout << "How long do you want the string? ";
-	int size = 0;
-	cin >> size;
-	char *input = new char[size + 1]();
-	cin.ignore();
-	cout << "input the string: ";
-	cin.get(input, size + 1);
-	cout << input;
-	delete[] input;
+		
+	//cout << "How long do you want the string? ";
+	//int size = 0;
+	//cin >> size;
+	//char *input = new char[size+1]();
+	//cin.ignore();
+	//cout << "input the string: ";
+	//cin.get(input, size+1);
+	//cout << input;
+	//delete[] input;
 	
 	//ex12.25
 	//int *pa = new int[10];
@@ -114,15 +105,66 @@ void Fun_new_and_Arrays()
 }
 
 
+//12.3.2 allocator类
+void Fun_The_allocator_Class()
+{
+	//没有默认构造函数的类不能动态分配数组
+	
+	//allocator类将内存分配和对象构造分离开来
+	//分配一段原始的、未被构造的内存
+	//allocator分配为构造的内存
+	//allocator<string> alloc;
+	//auto p = alloc.allocate(10);
+	//auto q = p;			//q指向最后构造的元素之后的位置；
+	//alloc.construct(q++);
+	//alloc.construct(q++, 10, 'c');
+	//alloc.construct(q++, "hello");
+	//
+	//while (q!=p)
+	//{
+	//	cout << *(--q) << endl;
+	//	//对指向的对象执行析构函数，只能对真正构造了的元素执行destroy操作
+	//	alloc.destroy(q);	
+	//}
+	////元素被销毁以后，可以重新使用这部分内存，也可以将其归还给系统，
+	////调用deallocate前，必须对每个元素执行destroy
+	//alloc.deallocate(q, 10);//统一分配，统一释放
 
+	//拷贝和填充未初始化内存的算法
+	
+	//vector<int> vec = { 0,1,2,3,4,5,6,7,8,9 };
+	//allocator<int> alloc;
+	//auto p = alloc.allocate(vec.size() * 2);
+	////每次调用uninitialized_copy返回一个构造元素之后位置的指针
+	//auto q = uninitialized_copy(vec.begin(), vec.end(), p);
+	//auto m = uninitialized_fill_n(q, vec.size(), 42);
+	//while (m != p)
+	//{
+	//	cout << *(--m) << "   ";
+	//}
 
-//12.3.2
-
+	//ex12.26
+	//allocator<string> alloc;
+	//auto p = alloc.allocate(10);
+	//ifstream input("Text2.txt");
+	//string str;
+	//auto q = p;
+	//for (; q != p + 10 && getline(input, str); q++)
+	//{
+	//	alloc.construct(q, str);
+	//}
+	//while (q != p)
+	//{
+	//	cout << *(--q) << endl;
+	//}
+}
 
 int main()
 {
 	//12.3.1 new和数组
-	Fun_new_and_Arrays();
+	//Fun_new_and_Arrays();
+	//12.3.2 allocator类
+	Fun_The_allocator_Class();
 
 	return 0;
 }

@@ -4,3 +4,8 @@ Hello
 World
 Java
 Python
+Linux
+ubuntu
+C
+Data Structure
+Algorithm
