@@ -85,3 +85,16 @@ Sales_data operator+(const Sales_data& lhs, const Sales_data& rhs)
 	return ret;           // return (|ret|) by value
 }
 
+string str_proc(string &word)
+{
+	for (auto iter = word.begin(); iter != word.end();)
+	{
+		//全部变成小写，并删除最后的标点符号
+		*iter = tolower(*iter);
+		if (ispunct(*iter) && (iter + 1 == word.end()))
+			iter = word.erase(iter);
+		else ++iter;
+	}
+	return word;
+}
+

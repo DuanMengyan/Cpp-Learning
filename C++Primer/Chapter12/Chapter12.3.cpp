@@ -13,51 +13,40 @@
 
 
 #include "header_include.h"
-//#include "fun.h"
+#include "fun.h"
 //#include "Sales_data.h"
 //#include "StrBlob.h"
 //#include "StrBlobPtr.h"
 //#include "ConstStrBlobPtr.h"
-#include "QueryResult.h"
-#include "TextQuery.h"
+//#include "QueryResult.h"
+//#include "TextQuery.h"
+#include "ex12.32.h"
 
 using namespace std;
 
 //Chapter12.3 使用标准库：文本查询程序
 //Using the Library: A Text-Query Program
 
-
-
-//void runQueries(ifstream &infile)
-//{
-//	//infile是一个ifstream，指向我们要处理的文件
-//	TextQuery tq(infile);
-//	//与用户交互，提示输入要查询的单词，完成查询并打印结果
-//	while (true)
-//	{
-//		cout << "Please enter word to look for, or q to quit: ";
-//		string s;
-//		//如果没有输入或输入为 q
-//		if (!(cin >> s) || s == "q")
-//			break;
-//		//指向查询并打印结果
-//		//print(cout, tq.query(s)) << endl;
-//	}
-//}
-
-string str_proc(string &word)
+void runQueries(ifstream &infile)
 {
-	for (auto iter = word.begin(); iter != word.end();)
+	//infile是一个ifstream，指向我们要处理的文件
+	TextQuery tq(infile);
+	//tq.print();
+	tq.print_file();
+	//与用户交互，提示输入要查询的单词，完成查询并打印结果
+	while (true)
 	{
-		//全部变成小写，并删除最后的标点符号
-		*iter = tolower(*iter);
-		if (ispunct(*iter) && (iter + 1 == word.end()))
-			iter = word.erase(iter);
-		else ++iter;
+		cout << "====================================================" << endl;
+		cout << "Please enter word to look for, or q to quit: ";
+		string s;
+		//如果没有输入或输入为 q
+		if (!(cin >> s) || s == "q")
+			break;
+		//指向查询并打印结果
+		//print(cout, tq.query(s)) << endl;
+		print_result(cout, tq.query(s)) << endl;
 	}
-	return word;
 }
-
 
 //Chapter12.3.1 文本查询程序设计
 void Fun_Design_of_the_Query_Program()
@@ -75,33 +64,36 @@ void Fun_Design_of_the_Query_Program()
 	//ex12.27
 
 	//ex12.28
-	ifstream input("Text3.txt");
-	string strline;
-	size_t row = 0;
-	map<size_t, vector<string>> dectory;
-	set<size_t> word_set;
-	while (getline(input, strline))
-	{
-		istringstream words(strline);
-		string word;
-		while (words >> word)
-		{
-			word = str_proc(word);
-			dectory[row].push_back(word);
-		}
-		++row;
-	}
+	//ifstream input("Text3.txt");
+	//string strline;
+	//size_t row = 0;
+	//map<size_t, vector<string>> dectory;
+	//set<size_t> word_set;
+	//while (getline(input, strline))
+	//{
+	//	istringstream words(strline);
+	//	string word;
+	//	while (words >> word)
+	//	{
+	//		word = str_proc(word);
+	//		dectory[row].push_back(word);
+	//	}
+	//	++row;
+	//}
 	//
-	////打印文件读取结果
-	////for (size_t i = 0; i != row; ++i)
-	////{
-	////	cout << "Line " << i << ": ";
-	////	for (auto word : dectory[i])
-	////		cout << word << " ";
-	////	cout << endl;
-	////}
+	//打印文件读取结果
+	//for (size_t i = 0; i != row; ++i)
+	//{
+	//	cout << "Line " << i << ": ";
+	//	for (auto word : dectory[i])
+	//		cout << word << " ";
+	//	cout << endl;
+	//}
 	//cout << "==================" << endl;
 	//
+
+
+	//查询过程并输出查询结果
 	//while (true)
 	//{
 	//	string s;
@@ -143,25 +135,40 @@ void Fun_Design_of_the_Query_Program()
 	//}
 
 
-
-
 	//ex12.29
-	
+	//do
+	//{
+	//	//查询过程并打印查询结果
+	//} while (true);
 
 }
 
+//Chapter12.3.2 文本查询程序类的定义
+void Fun_Defining_the_Query_Program_Classes()
+{
+	//ex12.30
+	//ifstream input("Text3.txt");
+	//runQueries(input);
+	
+	//ex12.31
+	//vector不能保证元素唯一，set更好，唯一，且有序
 
+	//ex12.32
+	//ifstream input("Text3.txt");
+	//runQueries(input);
 
-
-
-//Chapter12.3.2
-
+	//ex12.33
+	ifstream input("Text3.txt");
+	runQueries(input);
+}
 
 
 
 int main()
 {
 	//Chapter12.3.1 文本查询程序设计
-	Fun_Design_of_the_Query_Program();
+	//Fun_Design_of_the_Query_Program();
+	//Chapter12.3.2 文本查询程序类的定义
+	Fun_Defining_the_Query_Program_Classes();
 	return 0;
 }

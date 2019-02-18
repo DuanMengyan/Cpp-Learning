@@ -1,20 +1,34 @@
 #pragma once
 
-#ifndef QUERYRESULT
+#ifndef QUERYRESULT_H
+#define QUERYRESULT_H
 
 #include "header_include.h"
-using namespace std;
+#include "TextQuery.h"
+#include "fun.h"
 
+using namespace std;
 
 class QueryResult
 {
 public:
-	QueryResult();
-	~QueryResult();
-private:
+	//友元函数，打印查询结果
+	friend ostream &print(ostream &, const QueryResult&);
 
+	using line_no = vector<string>::size_type;
+	
+	QueryResult(string s, shared_ptr<set<line_no>> p, shared_ptr<vector<string>>f) :
+		sought(s), lines(p), file(f) {}
+	~QueryResult();
+
+private:
+	string sought;			//查询单词；
+	shared_ptr<set<line_no>> lines;			//出现的行号
+	shared_ptr<vector<string>> file;		//输入文件
 };
 
-#endif // !QUERYRESULT
+ostream &print(ostream &, const QueryResult&);
+
+#endif // !QUERYRESULT_H
 
 
