@@ -7,14 +7,30 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2019年2月18日 星期一
-> Last edited time: 2019年2月21日 星期四
+> Last edited time: 2019年2月22日 星期五
 > Topic:C++Primer Chapter13.1 拷贝、赋值与销毁
 ************************************************************************/
 
 
 #include "header_include.h"
+#include "StrBlob.h"
+#include "StrBlobPtr.h"
 
 using namespace std;
+
+//ex13.5
+class HasPtr
+{
+public:
+	HasPtr(const string &s = string()) :ps(new string(s)), i(0) {}
+	HasPtr(const HasPtr &item) :ps(new string(*item.ps)), i(item.i) {}
+
+private:
+	string *ps;
+	int i;
+};
+
+
 
 //Chapter13.1.1 拷贝构造函数
 void Fun_The_Copy_Constructor()
@@ -45,8 +61,8 @@ void Fun_The_Copy_Constructor()
 
 	
 	//拷贝初始化的限制
-	vector<int> v1(10);
-	cout << v1.size() << endl;
+	//vector<int> v1(10);
+	//cout << v1.size() << endl;
 	//vector<int> v2 = 10;  //错误，接受大小参数的构造函数是explicit的
 
 	//void f(vector<int>);
@@ -63,15 +79,52 @@ void Fun_The_Copy_Constructor()
 
 	//ex13.1	进行拷贝初始化时用拷贝构造函数
 	//ex13.2	拷贝构造函数第一个参数必须是引用类型
-	//ex13.3
+	//ex13.3	
+	//StrBlob拷贝复制元素，引用计数加1
+	//StrBlob str({ "hello", "world" });		//调用初始化列表构造函数
+	//std::cout << "before: " << str.count() << std::endl; // 1
+	//StrBlob str_cp(str);					//调用编译器合成的默认拷贝构造函数
+	//std::cout << "after: " << str.count() << std::endl;  // 2
+	//str.print_strblob();
+	////StrBlobPtr拷贝复制元素，但是弱指针计数器不变;
+	//StrBlobPtr p(str);
+	//std::cout << "before: " << p.count() << std::endl; // 2
+	//StrBlobPtr p_cp(p);
+	//std::cout << "after: " << p.count() << std::endl; // 2
+
 	//ex13.4
+	//首先foo_bar函数的参数是非引用类型，需拷贝，使用拷贝构造函数；
+	//函数的返回类型非引用类型，也需要进行拷贝，使用拷贝构造函数。
+	//在函数体中arg拷贝到local对象，global拷贝到heap对象，local、*heap拷贝到pa[4]中皆使用拷贝构造函数
+	//使用=进行定义变量时
+	
+	//ex13.5 //如上
+
+
 }
 
+//Chapter13.1.2 拷贝赋值运算符
+void Fun_The_Copy_Assignment_Operator()
+{
+	//如果类未定义拷贝复制运算符，编译器会为它定义一个；
+	StrBlob str{"hello","world"};
+	StrBlob str2;
+	str2 = str;
+	str2.print_strblob();
+	//重载赋值运算符
+	//赋值运算符就是一个名为operator=的函数
+	//如果运算符是一个成员函数，其左侧的对象就绑定到隐式的this参数
+	//赋值运算符通常返回一个指向其左侧运算对象的引用
+	//标准库通常要求保存在容器中的类型要具有赋值运算符，且其返回值是左侧运算对象的引用
 
+
+}
 
 int main()
 {
 	//Chapter13.1.1 拷贝构造函数
-	Fun_The_Copy_Constructor();
+	//Fun_The_Copy_Constructor();
+	//Chapter13.1.2 拷贝赋值运算符
+	Fun_The_Copy_Assignment_Operator();
 	return 0;
 }
