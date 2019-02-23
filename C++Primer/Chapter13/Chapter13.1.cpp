@@ -42,6 +42,7 @@ public:
 	//析构函数
 	~HasPtr()
 	{
+		//delete ps;
 		cout << *ps << " ***The_Destructor" << endl;
 	}
 private:
@@ -241,7 +242,158 @@ void Fun_The_Destructor()
 	//delete hp;
 
 }
- 
+
+class numbered
+{
+public:
+	numbered() {};
+	numbered(int i):mysn(i){};
+	numbered(const numbered& num)
+	{
+		mysn = num.mysn + 1;
+	}
+	numbered& operator=(const numbered& num)
+	{
+		mysn = num.mysn + 1;
+	}
+	~numbered() {};
+
+	int mysn;
+};
+
+void fun1_numbered(numbered s)
+{
+	cout << s.mysn << endl;
+}
+
+void fun2_numbered(numbered &s)
+{
+	cout << s.mysn << endl;
+}
+
+
+HasPtr f(HasPtr hp)  //拷贝赋值
+{
+	cout << "f" << endl;
+	HasPtr ret = hp;		//拷贝赋值
+	return ret;
+}
+
+//Chapter13.1.4 三/五法则
+void Fun_The_Rule_of_Three_or_Five()
+{
+
+	//需要析构函数的类也需要拷贝和复制操作
+	//HasPtr p("some values");
+	//f(p);	
+	////hp和ret都被销毁，都调用析构函数，导致指针delete两次，未定义
+	//HasPtr q(p);	//p和q都指向无效内存
+
+	//需要拷贝操作的类也需要赋值操作，反之亦然
+	//无论是需要拷贝构造函数还是需要拷贝赋值运算符都不必然意味着也需要析构函数
+
+	//ex13.14
+	//使用合成的拷贝控制成员，三个数字一样
+
+	
+	//ex13.15
+	//numbered a(5), b = a, c = b;
+	//fun1_numbered(a);	//6
+	//fun1_numbered(b);	//7
+	//fun1_numbered(c);	//8
+
+	//ex13.16
+	//numbered a(5), b = a, c = b;
+	//fun2_numbered(a);	//5
+	//fun2_numbered(b);	//6
+	//fun2_numbered(c);	//7
+	
+	//ex13.17
+
+}
+
+//Chapter13.1.5 使用=default
+void Fun_Using_default()
+{
+	//我们可以通过将拷贝控制成员定义为=default来显示地要求编译器生成合成的拷贝控制成员
+	//当我们在类内使用=default修饰成员的声明时，合成的函数将隐式地声明为内联的
+	//如果不希望合成的成员是内联函数，则只对成员的类外定义使用=default即可。
+}
+
+
+//ex13.18
+
+class Employee
+{
+public:
+
+	Employee() 
+	{
+		id = order++;
+	}
+
+	Employee(const string &name)
+	{
+		Name = name;
+		id = order++;
+	}
+
+	Employee(const Employee &) = delete;
+	Employee operator=(const Employee &) = delete;
+	~Employee() = default;
+
+	void print_id()
+	{
+		cout << Name << " : " << id << endl;
+	}
+private:
+	string Name;
+	int id;
+	static int order;
+};
+int Employee::order = 1;
+
+
+//Chapter13.1.6 阻止拷贝
+void Fun_Preventing_Copies()
+{
+	//大多数类应该定义默认构造函数、拷贝构造函数和拷贝赋值运算符，无论是隐式地还是显式地
+
+	//定义删除的函数
+	//我们通过将拷贝构造函数和拷贝赋值运算符定义为删除的函数来阻止拷贝
+	//删除函数：我们虽然声明了它，但不能以任何方式使用他们
+	//在函数的参数列表后面加上=delete来指出我们希望将它定义为删除的
+
+	//析构函数不能是删除的成员
+	//如果一个类类型的析构函数被删除，编译器将不允许定义该类型的变量或创建改类的临时变量，
+	//可以动态分配这种类型的对象，但不能释放该类型动态分配对象的指针
+	//如果一个类类型的某个成员的类型删除了析构函数，我们也不能定义该类的变量或临时对象
+
+	//合成的拷贝控制成员可能是删除的
+	//对于某些类来说，编译器将合成的拷贝控制成员定义为删除的函数
+	//本质上，如果一个类有数据成员不能默认构造、拷贝、复制或销毁，则对应的成员函数将被定义为删除的
+
+	//private拷贝控制，新标准发布之前
+
+	//ex13.18
+	//Employee employee1("Tom");
+	//employee1.print_id();
+	//Employee employee2("Mike");
+	//employee2.print_id();
+	//Employee employee3("Bob");
+	//employee3.print_id();
+
+	//ex13.19
+	//员工不能再现实世界中拷贝赋值
+	
+	//ex13.20
+	//TextQuery和QueryResult所有成员(包括智能指针和容器)都将被拷贝 
+	
+	//ex13.21
+	//不需要，合成版本拷贝控制操作可以满足要求
+
+}
+
 int main()
 {
 	//Chapter13.1.1 拷贝构造函数
@@ -251,6 +403,16 @@ int main()
 	//Fun_The_Copy_Assignment_Operator();
 
 	//Chapter13.1.3 析构函数
-	Fun_The_Destructor();
+	//Fun_The_Destructor();
+
+	//Chapter13.1.4 三/五法则
+	//Fun_The_Rule_of_Three_or_Five();
+
+	//Chapter13.1.5 使用=default
+	//Fun_Using_default();
+
+	//Chapter13.1.5 阻止拷贝
+	Fun_Preventing_Copies();
+
 	return 0;
 }
