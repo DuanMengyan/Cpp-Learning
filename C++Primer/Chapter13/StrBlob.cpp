@@ -58,6 +58,12 @@ void StrBlob::print_strblob()
 
 
 
+StrBlob& StrBlob::operator=(const StrBlob & item)
+{
+	data = item.data;
+	return *this;
+}
+
 void StrBlob::check(size_type i, const string & msg) const
 {
 	if (i >= data->size())

@@ -17,6 +17,10 @@ struct Sales_data
 {
 	//新增的构造函数
 	Sales_data() = default;
+	~Sales_data()
+	{
+		cout << bookNo << "  ***Destructor***" << endl;
+	}
 	//Sales_data(): bookNo(""), units_sold(0), revenue(0){ }//使用类内初始值显式地初始化成员
 	//explict抑制构造函数隐式转换
 	explicit Sales_data(const string &s) :bookNo(s){ }

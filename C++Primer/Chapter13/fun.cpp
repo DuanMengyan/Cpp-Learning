@@ -59,7 +59,7 @@ istream &read(istream &is, Sales_data &item)
 	return is;
 }
 
-std::istream &operator >> (std::istream& in, Sales_data& s)
+istream &operator >> (istream& in, Sales_data& s)
 {
 	double price;
 	in >> s.bookNo >> s.units_sold >> price;
@@ -71,7 +71,7 @@ std::istream &operator >> (std::istream& in, Sales_data& s)
 	return in;
 }
 
-std::ostream &operator<<(std::ostream& out, const Sales_data& s)
+ostream &operator<<(ostream& out, const Sales_data& s)
 {
 	out << s.isbn() << " " << s.units_sold << " "
 		<< s.revenue << " " << s.avg_price();
@@ -84,6 +84,9 @@ Sales_data operator+(const Sales_data& lhs, const Sales_data& rhs)
 	ret += rhs;           // add in the contents of (|rhs|) 
 	return ret;           // return (|ret|) by value
 }
+
+
+
 
 string str_proc(string &word)
 {

@@ -49,6 +49,7 @@ public:
 		return data.use_count(); // and wptr.use_count();
 	}
 
+	StrBlob& operator=(const StrBlob &item);
 private:
 	//如果data[i]不合法，抛出一个异常
 	void check(size_type i, const string &msg) const;
