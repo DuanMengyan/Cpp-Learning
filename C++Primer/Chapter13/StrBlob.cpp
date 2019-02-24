@@ -60,7 +60,7 @@ void StrBlob::print_strblob()
 
 StrBlob& StrBlob::operator=(const StrBlob & item)
 {
-	data = item.data;
+	data = make_shared<vector<string>>(item.data);
 	return *this;
 }
 

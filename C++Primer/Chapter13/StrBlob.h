@@ -22,10 +22,17 @@ public:
 	StrBlobPtr begin();
 	StrBlobPtr end();
 
+	//构造函数
 	StrBlob() :data(make_shared<vector<string>>()) {};
 	StrBlob(initializer_list<string> il) :data(make_shared<vector<string>>(il)) {};
-
 	//explicit StrBlob(initializer_list<string> il) :data(make_shared<vector<string>>(il)){};
+	
+	//拷贝构造函数
+	StrBlob(const StrBlob &item) :data(make_shared<vector<string>>(*item.data)) {}
+	
+	//拷贝赋值运算符
+	StrBlob& operator=(const StrBlob &);
+
 	~StrBlob();
 	
 	size_type size()const { return data->size(); }
@@ -49,7 +56,7 @@ public:
 		return data.use_count(); // and wptr.use_count();
 	}
 
-	StrBlob& operator=(const StrBlob &item);
+	
 private:
 	//如果data[i]不合法，抛出一个异常
 	void check(size_type i, const string &msg) const;

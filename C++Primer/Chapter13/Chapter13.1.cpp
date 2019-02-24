@@ -16,39 +16,11 @@
 #include "Sales_data.h"
 #include "StrBlob.h"
 #include "StrBlobPtr.h"
-
+#include "HasPtr.h"
 using namespace std;
 
 //ex13.5/ex13.8/13.11
-class HasPtr
-{
-public:
-	HasPtr(const string &s = string()) :ps(new string(s)), i(0) {}
-	//拷贝构造函数
-	HasPtr(const HasPtr &item) :ps(new string(*item.ps)), i(item.i) 
-	{ 
-		cout << *ps << " ***The_Copy_Constructor" << endl;
-	}
-	//拷贝复制运算符
-	HasPtr& operator=(const HasPtr &hp)
-	{
-		cout << *ps << " ***The_Copy_Assignment_Operator" << endl;
-		string *p = new string(*hp.ps);		//new返回指向分配好的内存，创建对象指针
-		delete ps;		//首先删除原内存
-		ps = p;			//赋值
-		i = hp.i;
-		return *this;
-	}
-	//析构函数
-	~HasPtr()
-	{
-		//delete ps;
-		cout << *ps << " ***The_Destructor" << endl;
-	}
-private:
-	string *ps;
-	int i;
-};
+
 
 //Chapter13.1.1 拷贝构造函数
 void Fun_The_Copy_Constructor()
@@ -394,25 +366,25 @@ void Fun_Preventing_Copies()
 
 }
 
-int main()
-{
-	//Chapter13.1.1 拷贝构造函数
-	//Fun_The_Copy_Constructor();
-
-	//Chapter13.1.2 拷贝赋值运算符
-	//Fun_The_Copy_Assignment_Operator();
-
-	//Chapter13.1.3 析构函数
-	//Fun_The_Destructor();
-
-	//Chapter13.1.4 三/五法则
-	//Fun_The_Rule_of_Three_or_Five();
-
-	//Chapter13.1.5 使用=default
-	//Fun_Using_default();
-
-	//Chapter13.1.5 阻止拷贝
-	Fun_Preventing_Copies();
-
-	return 0;
-}
+//int main()
+//{
+//	//Chapter13.1.1 拷贝构造函数
+//	//Fun_The_Copy_Constructor();
+//
+//	//Chapter13.1.2 拷贝赋值运算符
+//	//Fun_The_Copy_Assignment_Operator();
+//
+//	//Chapter13.1.3 析构函数
+//	//Fun_The_Destructor();
+//
+//	//Chapter13.1.4 三/五法则
+//	//Fun_The_Rule_of_Three_or_Five();
+//
+//	//Chapter13.1.5 使用=default
+//	//Fun_Using_default();
+//
+//	//Chapter13.1.5 阻止拷贝
+//	Fun_Preventing_Copies();
+//
+//	return 0;
+//}
