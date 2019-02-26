@@ -7,7 +7,7 @@
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2019年2月23日 星期六
-> Last edited time: 2019年2月24日 星期日
+> Last edited time: 2019年2月26日 星期二
 > Topic:C++Primer Chapter13.2 拷贝控制和资源管理
 ************************************************************************/
 
@@ -16,6 +16,7 @@
 #include "StrBlob.h"
 #include "StrBlobPtr.h"
 #include "HasPtr.h"
+
 
 using namespace std;
 
@@ -49,8 +50,101 @@ void Fun_Classes_That_Act_Like_Values()
 	
 }
 
+
+//ex13.28
+class TreeNode
+{
+public:
+	TreeNode() :value(string()), count(new int(1)), left(nullptr), right(nullptr) {};
+	TreeNode(const TreeNode &tn):value(tn.value),count(tn.count),left(tn.left),right(tn.right)
+	{
+		++*count;
+	}
+	TreeNode& operator=(const TreeNode &tn)
+	{
+		++*tn.count;
+		if (--*count == 0)
+		{
+			delete left;
+			delete right;
+			delete count;
+		}
+		value = tn.value;
+		count = tn.count;
+		left = tn.left;
+		right = tn.right;
+		return *this;
+	}
+	~TreeNode()
+	{
+		if (--*count == 0)
+		{
+			delete left;
+			delete right;
+			delete count;
+		}
+	}
+
+private:
+	string value;
+	int *count;
+	TreeNode *left;
+	TreeNode *right;
+};
+
+
+class BinStrTree
+{
+public:
+	BinStrTree() :root(new TreeNode()) {};
+	BinStrTree(const BinStrTree &bst) :root(new TreeNode(*bst.root)) {};
+	BinStrTree& operator=(const BinStrTree &bst)
+	{
+		TreeNode *new_root = new TreeNode(*bst.root);
+		delete root;
+		root = new_root;
+		return *this;
+	}
+
+	~BinStrTree()
+	{
+		delete root;
+	}
+
+private:
+	TreeNode *root;
+};
+
+
+
+
+
+//Chapter13.2.2 行为象指针的类
+void Fun_Defining_Classes_That_Act_Like_Pointers()
+{
+	//令一个类展现类似指针的行为，最好的方法是使用shared_ptr来管理类中的资源
+
+	//引用计数，不使用shared_ptr，设计自己的引用计数
+	//将计数器保存在动态内存中，当创建一个对象时，我们也分配一个新的计数器。
+	//当拷贝或赋值对象时，我们拷贝指向计数器的指针。
+
+	//定义一个使用引用计数的类
+	//类指针的拷贝成员“篡改”引用计数
+
+	//ex13.27
+	
+	//ex13.28
+
+
+
+}
+
+
+
+
+
 int main()
 {
-	
+
 	return 0;
 }

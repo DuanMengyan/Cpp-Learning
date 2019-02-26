@@ -11,12 +11,13 @@ using namespace std;
 class HasPtr
 {
 public:
-	HasPtr(const string &s = string()) :ps(new string(s)), i(0) {}
+	HasPtr(const string &s = string()) :ps(new string(s)), i(0),use(new size_t(1)) {}
 	
 	//拷贝构造函数
 	//对ps指向的string，每个HasPtr对象都有自己的拷贝
-	HasPtr(const HasPtr &item) :ps(new string(*item.ps)), i(item.i) 
+	HasPtr(const HasPtr &item) :ps(new string(*item.ps)), i(item.i),use(item.use)
 	{ 
+		++*use;
 		cout << *ps << " ***The_Copy_Constructor" << endl;
 	}
 	//拷贝赋值运算符
@@ -25,12 +26,18 @@ public:
 	//析构函数
 	~HasPtr()
 	{
-		delete ps;
+		if (--*use == 0)
+		{
+			delete ps;		//释放string内存
+			delete use;		//释放计数器内存
+		}
+		
 		//cout << *ps << " ***The_Destructor" << endl;
 	}
 private:
 	string *ps;
 	int i;
+	size_t *use;
 };
 
 
