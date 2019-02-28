@@ -116,9 +116,6 @@ private:
 };
 
 
-
-
-
 //Chapter13.2.2 行为象指针的类
 void Fun_Defining_Classes_That_Act_Like_Pointers()
 {
@@ -142,9 +139,9 @@ void Fun_Defining_Classes_That_Act_Like_Pointers()
 
 
 
-
-int main()
-{
-
-	return 0;
-}
+//
+//int main()
+//{
+//
+//	return 0;
+//}

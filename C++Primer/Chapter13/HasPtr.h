@@ -11,6 +11,10 @@ using namespace std;
 class HasPtr
 {
 public:
+	friend void swap(HasPtr &, HasPtr &);
+	friend bool operator<(const HasPtr&, const HasPtr &);
+	friend void show(vector<HasPtr>&);
+
 	HasPtr(const string &s = string()) :ps(new string(s)), i(0),use(new size_t(1)) {}
 	
 	//拷贝构造函数
@@ -22,6 +26,8 @@ public:
 	}
 	//拷贝赋值运算符
 	HasPtr& operator=(const HasPtr &);
+	
+	
 
 	//析构函数
 	~HasPtr()
