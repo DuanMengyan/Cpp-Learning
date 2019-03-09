@@ -17,12 +17,15 @@ MyString::MyString(const char * s)
 		++s1;
 	}
 	range_initialize(s,s1);
-}
+}	
 
 
 MyString::MyString(const MyString &str)
 {
 	range_initialize(str.begin(), str.end());
+	printstr(cout, *this);
+	cout << "copy constructor" << endl; 
+
 }
 
 
@@ -32,6 +35,7 @@ MyString & MyString::operator=(const MyString &str)
 	free();
 	first_char = data.first;
 	end_after_char = data.second;
+	cout << "copy assignment operator" << endl;
 	return *this;
 }
 
