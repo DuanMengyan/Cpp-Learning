@@ -3,7 +3,7 @@
 
 
 /*************************************************************************
-> File Name: Chapter13.4.cpp
+> File Name: Chapter13.2.cpp
 > Author: DMY
 > Mail: dmy_email@163.com
 > Created Time: 2019年3月1日 星期五
@@ -101,10 +101,10 @@ void Fun_A_Copy_Control_Example()
 
 }
 
-
-int main()
-{
-	//Chapter13.4 拷贝控制实例
-	Fun_A_Copy_Control_Example();
-	return 0;
-}
+//
+//int main()
+//{
+//	//Chapter13.4 拷贝控制实例
+//	Fun_A_Copy_Control_Example();
+//	return 0;
+//}
