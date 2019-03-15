@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
@@ -24,7 +22,17 @@ public:
 	//拷贝赋值运算符
 	Message& operator=(const Message&);
 	
+	//析构函数
 	~Message();
+
+
+
+	//移动构造函数
+	Message(Message &&m);
+
+	//移动赋值运算符
+	Message& operator=(Message &&m);
+
 
 	//
 	void save_to_Folder(Folder&);
@@ -47,6 +55,12 @@ private:
 	void save_to_Folders(const Message&);
 	//从folders中的每个Folder中删除本Message
 	void remove_from_Folders();
+
+	//移动构造函数和移动赋值运算符所使用的工具函数
+	//从本Message移动Folder指针
+	void move_Folders(Message *m);
+
+
 
 };
 

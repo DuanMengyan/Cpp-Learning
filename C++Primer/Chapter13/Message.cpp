@@ -23,6 +23,24 @@ Message::~Message()
 	remove_from_Folders();
 }
 
+
+Message::Message(Message && m) :contents(std::move(m.contents))
+{
+	move_Folders(&m);
+
+}
+
+Message & Message::operator=(Message && m) 
+{
+	if (this != &m)
+	{
+		remove_from_Folders();
+		contents = std::move(m.contents);
+		move_Folders(&m);
+	}
+	return *this;
+}
+
 //把消息保存在指定的文件夹，
 void Message::save_to_Folder(Folder &f)
 {
@@ -65,6 +83,19 @@ void Message::remove_from_Folders()
 	{
 		f->remMsg(this);
 	}
+}
+
+
+//从本Message移动Folder指针
+void Message::move_Folders(Message *m)
+{
+	folders = std::move(m->folders);
+	for (auto f : folders)
+	{
+		f->remMsg(m);
+		f->addMsg(m);
+	}
+	m->folders.clear();
 }
 
 void swap(Message &lhs, Message &rhs)

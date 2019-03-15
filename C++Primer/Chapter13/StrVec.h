@@ -23,6 +23,12 @@ public:
 	//析构函数
 	~StrVec();
 
+	//移动构造函数
+	StrVec(StrVec &&s) noexcept;
+
+	//移动赋值运算符
+	StrVec& operator=(StrVec &&rhs) noexcept;
+	
 	//成员函数
 	void push_back(const string&);		//拷贝元素
 	void print_str();					//打印元素

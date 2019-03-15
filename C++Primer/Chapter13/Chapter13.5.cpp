@@ -94,11 +94,11 @@ void Fun_Classes_That_Manage_Dynamic_Memory()
 
 }
 
-
-int main()
-{
-	//Chapter13.5 动态内存管理类
-	Fun_Classes_That_Manage_Dynamic_Memory();
-
-	return 0;
-}
+//
+//int main()
+//{
+//	//Chapter13.5 动态内存管理类
+//	Fun_Classes_That_Manage_Dynamic_Memory();
+//
+//	return 0;
+//}

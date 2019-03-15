@@ -14,6 +14,7 @@ StrVec::StrVec(const StrVec &s)
 	//elements = newdata.first;
 	//first_free = newdata.second;
 	range_initialize(s.begin(), s.end());
+	
 }
 
 //拷贝赋值运算符
@@ -24,6 +25,7 @@ StrVec & StrVec::operator=(const StrVec &rhs)
 	free();
 	elements = data.first;
 	first_free = cap = data.second;
+	cout << "copy assignment" << endl;
 	return *this;
 }
 
@@ -31,6 +33,33 @@ StrVec & StrVec::operator=(const StrVec &rhs)
 StrVec::~StrVec()
 {
 	free();
+}
+
+
+//移动构造函数
+StrVec::StrVec(StrVec && s) noexcept 			//移动操作不应抛出任何异常
+	: elements(s.elements), first_free(s.first_free), cap(s.cap)
+	//成员初始化器接管s中的资源
+{
+	//令s进入这样的状态——对其运行析构函数是安全的
+	s.elements = s.first_free = s.cap = nullptr;
+}
+
+//移动赋值运算符
+StrVec & StrVec::operator=(StrVec && rhs) noexcept
+{
+	//直接检测自赋值
+	if (this != &rhs)
+	{
+		free();		//释放已有元素
+		elements = rhs.elements;
+		first_free = rhs.first_free;
+		cap = rhs.cap;
+		//将rhs置于可析构状态
+		rhs.elements = rhs.first_free = rhs.cap = nullptr;
+	}
+	cout << "move assignment" << endl;
+	return *this;
 }
 
 //拷贝元素

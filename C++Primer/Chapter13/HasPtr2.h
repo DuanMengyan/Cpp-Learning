@@ -24,6 +24,17 @@ public:
 	//拷贝赋值运算符
 	HasPtr2& operator=(const HasPtr2 &);
 
+	//添加的移动构造函数
+	HasPtr2(HasPtr2 && p)noexcept:ps(p.ps), i(p.i) { p.ps = nullptr; }
+	
+	//赋值运算符既是移动赋值运算符，也是拷贝赋值运算符
+	HasPtr2& operator=(HasPtr2 rhs)
+	{
+		swap(*this, rhs);
+		return *this;
+	}
+
+
 	//析构函数
 	~HasPtr2()
 	{
