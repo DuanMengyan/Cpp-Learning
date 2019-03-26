@@ -48,16 +48,18 @@ void Folder::remove_from_Messages()
 
 void Folder::print_name()
 {
-	cout << name << endl;
+	cout << name << endl;;
 }
 
 //打印folder包含的消息文件
 void Folder::print_messages()
 {
+	cout << name << " : ";
 	for (auto m : set_m)
 	{
-		cout << m->contents << endl;
+		cout << m->contents <<"   ";
 	}
+	cout << endl;
 }
 
 

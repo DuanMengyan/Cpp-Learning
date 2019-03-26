@@ -20,12 +20,10 @@ public:
 	Message(const Message&);
 
 	//拷贝赋值运算符
-	Message& operator=(const Message&);
+	Message& operator= (const Message&);
 	
 	//析构函数
 	~Message();
-
-
 
 	//移动构造函数
 	Message(Message &&m);
@@ -40,7 +38,7 @@ public:
 	void remove_from_Folder(Folder&);
 
 	//打印消息内容
-	void print_message();
+	void print_m_contents();
 
 	//打印包含当前消息的文件夹
 	void print_folders();

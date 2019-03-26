@@ -3,6 +3,7 @@
 #ifndef STRVEC_H
 #define STRVEC_H
 
+
 #include "header_include.h"
 
 using namespace std;
@@ -31,6 +32,9 @@ public:
 	
 	//成员函数
 	void push_back(const string&);		//拷贝元素
+	
+	void push_back(string&&);			//移动元素
+	
 	void print_str();					//打印元素
 	string *begin() const { return elements; }
 	string *end() const { return first_free; }

@@ -68,6 +68,13 @@ void StrVec::push_back(const string &s)
 	chk_n_alloc();
 	alloc.construct(first_free++, s);
 }
+
+//移动元素
+void StrVec::push_back(string &&s)
+{
+	chk_n_alloc();
+	alloc.construct(first_free++, std::move(s));
+}
 //打印元素
 void StrVec::print_str()
 {
@@ -160,7 +167,15 @@ void StrVec::reallocate()
 
 	//我们将分配当前大小两倍的内存空间
 	auto newcapacity = size() ? 2 * size() : 1;
-	alloc_move_n(newcapacity);
+	//alloc_move_n(newcapacity);
+
+	auto first = alloc.allocate(newcapacity);
+	auto last = uninitialized_copy(make_move_iterator(begin()), make_move_iterator(end()), first);
+	free();
+	elements = first;
+	first_free = last;
+	cap = elements + newcapacity;
+
 }
 
 void StrVec::alloc_move_n(size_t new_cap)

@@ -28,8 +28,6 @@ public:
 	Folder& operator=(const Folder&);
 
 	~Folder();
-	
-
 
 	//打印当前文件夹的名字
 	void print_name();
@@ -41,7 +39,7 @@ private:
 	string name;
 	set<Message*> set_m;
 
-		//添加消息文件
+	//添加消息文件
 	void addMsg(Message*);
 
 	//删除消息文件

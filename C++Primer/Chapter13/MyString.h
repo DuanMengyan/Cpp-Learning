@@ -22,7 +22,14 @@ public:
 	//拷贝赋值运算符
 	MyString& operator=(const MyString&);
 	
+	//析构函数
 	~MyString();
+
+	//移动构造函数
+	MyString(MyString&&) noexcept;
+
+	//移动赋值运算符
+	MyString& operator=(MyString &&) noexcept;
 
 	
 	size_t strlen() { return end_after_char - first_char; }

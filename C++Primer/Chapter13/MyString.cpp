@@ -19,16 +19,15 @@ MyString::MyString(const char * s)
 	range_initialize(s,s1);
 }	
 
-
+//拷贝构造函数
 MyString::MyString(const MyString &str)
 {
 	range_initialize(str.begin(), str.end());
 	printstr(cout, *this);
 	cout << "copy constructor" << endl; 
-
 }
 
-
+//拷贝赋值运算符
 MyString & MyString::operator=(const MyString &str)
 {
 	auto data = alloc_n_copy(str.begin(), str.end());
@@ -39,9 +38,31 @@ MyString & MyString::operator=(const MyString &str)
 	return *this;
 }
 
+//析构函数
 MyString::~MyString()
 {
 	free();
+}
+
+//移动构造函数
+MyString::MyString(MyString &&str)noexcept:first_char(str.first_char),end_after_char(str.end_after_char)
+{
+	cout << "move constructor" << endl;
+	str.first_char = str.end_after_char = nullptr;
+}
+
+//移动赋值运算符
+MyString & MyString::operator=(MyString && str) noexcept
+{
+	cout << "move assignment" << endl;
+	if (this != &str)
+	{
+		free();
+		first_char = std::move(str.first_char);
+		end_after_char = std::move(str.end_after_char);
+		str.first_char = str.end_after_char = nullptr;
+	}
+	return *this;
 }
 
 

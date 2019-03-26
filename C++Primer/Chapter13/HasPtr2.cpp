@@ -15,12 +15,11 @@ HasPtr2 & HasPtr2::operator=(const HasPtr2 &hp)
 
 void swap(HasPtr2 &lhs, HasPtr2 &rhs)
 {
-	cout << "call HasPtr swap()" << endl;
+	//cout << "call HasPtr swap()" << endl;
 	using std::swap;
 	swap(lhs.ps, rhs.ps);		//交换指针，而不是string数据
 	swap(lhs.i, rhs.i);			//交换int成员
 }
-
 
 
 bool operator<(const HasPtr2 &hp1, const HasPtr2 &hp2)
@@ -40,3 +39,9 @@ void show(vector<HasPtr2>& vec)
 	cout << "====================" << endl;
 }
 
+
+
+void HasPtr2::print_str()
+{
+	cout << *ps << endl;
+}

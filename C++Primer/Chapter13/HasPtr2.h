@@ -19,21 +19,45 @@ public:
 	//对ps指向的string，每个HasPtr对象都有自己的拷贝
 	HasPtr2(const HasPtr2 &item) :ps(new string(*item.ps)), i(item.i)
 	{
-		cout << *ps << " ***The_Copy_Constructor" << endl;
+		//cout << *ps << " ***The_Copy_Constructor" << endl;
 	}
 	//拷贝赋值运算符
 	HasPtr2& operator=(const HasPtr2 &);
-
-	//添加的移动构造函数
-	HasPtr2(HasPtr2 && p)noexcept:ps(p.ps), i(p.i) { p.ps = nullptr; }
+	
 	
 	//赋值运算符既是移动赋值运算符，也是拷贝赋值运算符
-	HasPtr2& operator=(HasPtr2 rhs)
+	//HasPtr2& operator=(HasPtr2 rhs)
+	//{
+	//	cout << "assignment" << endl;
+	//	swap(*this, rhs);
+	//	return *this;
+	//}
+	
+	//添加的移动构造函数
+	HasPtr2(HasPtr2 && p) noexcept:ps(p.ps), i(p.i) 
+	{ 
+		p.ps = nullptr;
+		cout << "move constructor" << endl;
+	}
+
+	//移动赋值运算符
+	HasPtr2& HasPtr2::operator=(HasPtr2 && p) noexcept
 	{
-		swap(*this, rhs);
+		cout << "move assignment" << endl;
+		if (this != &p)
+		{
+			ps = p.ps;
+			i = p.i;
+			p.ps = nullptr;
+			p.i = 0;
+		}
 		return *this;
 	}
 
+
+
+	//打印字符串内容
+	void print_str();
 
 	//析构函数
 	~HasPtr2()
